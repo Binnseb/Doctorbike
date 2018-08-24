@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Edition d'une marque</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card bg-dark text-primary">
+                        <div class="card-header" style="text-align: center">
+                            <h4>Veuillez remplir ce formulaire pour modifier un modèle</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ include('marque/_form.html.twig', {'button_label': 'Enregistrer les modifications'}) }}
+
+                            <br>
+                            <a href="{{ path('marque_index') }}"><button class="btn btn-info">Revenir à la liste des marques</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

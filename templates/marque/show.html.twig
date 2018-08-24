@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Marque sélectionnée : {{ marque.nom }}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table table-hover table-responsive-sm">
+                    <tbody>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Logo</th>
+                            <th></th>
+
+                        </tr>
+                        <tr>
+                            <td>{{ marque.nom }}</td>
+                            <td>
+                                {% if marque.image %}
+                                    <img
+                                            src="{{ asset(marque.image.webPath) }}"
+                                            alt="{{ marque.image.alt }}"
+                                            width="50px"
+                                            height="50px"
+                                            class="img-responsive img-circle"
+                                    />
+                                    {% else %}
+                                    <td>Aucun avatar</td>
+                                {% endif %}
+                            </td>
+                            <td>{{ include('marque/_delete_form.html.twig') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a href="{{ path('marque_index') }}"><button class="btn btn-info">Revenir à la liste des marques</button></a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

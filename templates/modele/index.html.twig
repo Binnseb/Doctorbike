@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center ">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Liste de tous les modèles </h1>
+                        <p>Vous retrouverez ici tous les modèles existants ainsi que la marque et la cylindrée associée</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>Rechercher un modele <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} modèle(s) au total)</span><a href="{{ path('modele_new') }}" title="Cliquez pour ajouter un modèle" style=" float: right" ><button class="btn btn-pill btn-success" >+</button></a></h3>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   placeholder="Vous pouvez rechercher un modele par son nom ou sa marque"
+                            >
+                            <div class="input-group-append">
+                                <button type="submit"
+                                        class="btn btn-primary fa fa-search">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px">
+                <table class="table text-center table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nom du modèle</th>
+                            <th>Marque associée</th>
+                            <th></th>
+                            <th>Cylindrée associée</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for modele in pagination %}
+                        <tr>
+                            <td>{{ modele.nom }}</td>
+                            <td>{{ modele.marque.nom }}</td>
+                            <td>{% if modele.marque.image %}
+                                    <img
+                                            src="{{ asset(modele.marque.image.webPath) }}"
+                                            alt="{{ modele.marque.image.alt }}"
+                                            width="50px"
+                                            height="50px"
+                                            class="img-responsive img-circle"
+                                    />
+                                {% endif %}</td>
+                            <td>{{ modele.cylindree.valeur }}</td>
+                            <td><a href="{{ path('modele_show', {'id': modele.id}) }}"><button class="btn btn-info">Voir le modèle</button></a></td>
+                            <td><a href="{{ path('modele_edit', {'id': modele.id}) }}"><button class="btn btn-warning">Modifier le modèle</button></a></td>
+                        </tr>
+
+                    {% else %}
+                        <tr>
+                            <td colspan="12">Aucun enregistrement pour l'instant</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                    {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

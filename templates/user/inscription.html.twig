@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formUser 'bootstrap_4_layout.html.twig' %}
+
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Inscription</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card bg-dark text-primary">
+                        <div class="card-header" style="text-align: center">
+                            <h4>Veuillez remplir ce formulaire pour vous inscrire</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(formUser) }}
+
+                            {{ form_errors(formUser) }}
+
+                            {{ form_row(formUser.username, {'attr': {'placeholder': "Exemple : RascarKapack"}}) }}
+
+                            {{ form_row(formUser.email, {'attr': {'placeholder': "Exemple : Rascar@gmail.com"}}) }}
+
+                            {{ form_row(formUser.password) }}
+
+                            {{ form_row(formUser.confirm_password) }}
+
+                            {{ form_row(formUser.dateDeNaissance) }}
+
+                            <button type="submit" class="btn btn-success btn-block">
+                                S'inscrire
+                            </button>
+
+                            {{ form_rest(formUser) }}
+
+                            {{ form_end(formUser) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

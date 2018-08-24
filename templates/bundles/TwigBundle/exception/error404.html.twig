@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Doctorbike{% endblock %}
+
+{% block body %}
+
+    <div class="block push text-center">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1 style="color: #880000">Erreur {{ status_code }} : Page introuvable</h1>
+                        <p>La page à laquelle vous tentez d'accéder n'a pas été trouvée ou n'existe pas</p><br>
+                        <a href="{{ path('home') }}"><button class="btn btn-success btn-pill">Revenir à l'acceuil</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

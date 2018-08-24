@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Liste de tous les scénarios</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>Rechercher un scénario <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} scénario(s) au total)</span><a href="{{ path('add_first_scenario') }}" title="Cliquez pour ajouter un scénario" style=" float: right" ><button class="btn btn-pill btn-success" >+</button></a></h3>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   placeholder="Vous pouvez rechercher un scénario par son nom ou un mot clé"
+                            >
+                            <div class="input-group-append">
+                                <button type="submit"
+                                        class="btn btn-primary fa fa-search">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table table-dark text-center table-hover inline-table">
+                    <thead>
+                    <tr>
+                        <th>Auteur</th>
+                        <th>Nom du scénario</th>
+                        <th>Nombre de questions</th>
+                        <th>Nombre de votes</th>
+                        <th>Satisfaction</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for scenario in pagination %}
+                        <tr>
+
+                            <td>
+                                {{ scenario.user.username }}
+                                <br>
+                                {% if scenario.user.image %}
+                                <img
+                                        src="{{ asset(scenario.user.image.webPath) }}"
+                                        alt="{{ scenario.user.image.alt }}"
+                                        width="60px"
+                                        height="60px"
+                                        class="img-responsive img-circle"
+                                />
+                                {% else %}
+                                <td>Aucun avatar</td>
+                                {% endif %}
+                            </td>
+                            <td>{{ scenario.nom }}</td>
+                            <td>{{ scenario.questionReponses.count }}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a href="{{ path('scenario_play', {'id': scenario.id, 'id_question' :scenario.questionReponses.id}) }}"><button class="btn btn-success">Démarrer</button></a>
+                            </td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <td><a href="{{ path('scenario_show', {'id': scenario.id}) }}"><button class=" btn btn-info">Voir le scénario</button></a></td>
+                            {% endif %}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="12">Aucun scénario n'est enregistré pour le moment</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

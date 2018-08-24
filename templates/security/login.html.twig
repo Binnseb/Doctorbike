@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="jumbotron jumbotron-fluid">
+                    <h1>Connexion</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card bg-dark text-primary">
+                    <div class="card-header" style="text-align: center">
+                        <h4>Veuillez indiquer vos identifiants</h4>
+                    </div>
+                    <div class="card-body">
+
+                        {% if error %}
+                            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <form action="{{ path('security_login') }}" method="post" name="form">
+
+                            <div class="form-group row">
+                            <label class="col-sm-6 col-form-label"><h4>Email</h4></label>
+                                <div class="col-sm-12">
+                                <input type="text" class="form-control" placeholder="Ex : RascarKapack@gmail.com" required name="_username" value="{{ last_username }} ">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                            <label class="col-sm-6 col-form-label"><h4>Mot de passe</h4></label>
+                                <div class="col-sm-12">
+                                <input type="password" class="form-control" required name="_password">
+                                <a href="{{ url('forgetPassword') }}"style="color: red; text-decoration: none; float:right" >Mot de passe oublié ?</a>
+                                </div>
+                            </div>
+
+                            <input type="submit" class="btn btn-block btn-success" value="Se connecter" name="submit">
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

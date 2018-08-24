@@ -1,0 +1,68 @@
+security:
+    #L'encoder permet de définir la méthode de hash du password 
+    encoders:
+        #On définit quelle entité on souhaite utilisée
+        App\Entity\User: 
+            #On définit l'algo de cryptage
+            algorithm: bcrypt
+            
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    #Configuration du provider pour savoir où récupérer les informations d'un User lors de sa connexion (où sont les données ?)
+    providers:
+        in_memory: { memory: ~ }
+        #On définit un nom pour notre nouveau provider
+        in_database:
+            #On lui indique qu'il va travailler avec une entité
+            entity:
+                #On lui indique l'entité sur laquelle il doit se baser
+                class: App\Entity\User
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|js|images|js)/
+            security: false
+        main:
+            anonymous: true
+
+            #On indique le provider à utiliser pour le firewall
+            provider : in_database
+
+            #On précise quelle méthode on utilise pour se connecter (ici un formulaire de connexion)
+            form_login:
+                #On indique le chemin vers le formulaire de login
+                login_path: security_login
+                #On indique où le formulaire doit être vérifier lorsqu'il est soumis
+                check_path: security_login
+
+            
+            logout:
+                path: security_logout
+                target: home
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+
+    role_hierarchy:
+            ROLE_ADMIN: ROLE_USER
+
+    access_control:
+          - { path: ^/user/gestionDuCompte, roles: ROLE_USER }
+          - { path: ^/moto/new, roles: ROLE_USER }
+          - { path: ^/scenario, roles: ROLE_USER}
+          - { path: ^/questionReponse, roles: ROLE_USER}
+          - { path: ^/user/update/*, roles: ROLE_ADMIN }
+          - { path: ^/user/show, roles: ROLE_ADMIN }
+          - { path: ^/user/delete, roles: ROLE_ADMIN }
+          - { path: ^/user/gestionDesUsers, roles: ROLE_ADMIN }
+          - { path: ^/moto, roles: ROLE_ADMIN }
+          - { path: ^/cylindree, roles: ROLE_ADMIN }
+          - { path: ^/marque, roles: ROLE_ADMIN }
+          - { path: ^/modele, roles: ROLE_ADMIN }
+

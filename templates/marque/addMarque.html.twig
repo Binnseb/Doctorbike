@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formAddMarque 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Veuillez ajouter votre marque</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card bg-dark text-primary">
+                        <div class="card-header" style="text-align: center">
+                            <h4>Veuillez remplir ce formulaire pour ajouter un modèle</h4>
+                        </div>
+                        <div class="card-body">
+
+                            {{ form_start(formAddMarque) }}
+
+                            {{ form_errors(formAddMarque) }}
+
+                            {{ form_row(formAddMarque.nom) }}
+
+                            {{ form_row(formAddMarque.image) }}
+
+                            <button type="submit" class="btn btn-success btn-block">
+                                Ajouter la marque
+                            </button>
+
+                            {{ form_rest(formAddMarque) }}
+
+                            {{ form_end(formAddMarque) }}
+
+                            <br>
+                            <a href="{{ path('marque_index') }}"><button class="btn btn-info">Revenir à la liste des marques</button></a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

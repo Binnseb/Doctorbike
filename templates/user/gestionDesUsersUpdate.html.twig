@@ -1,0 +1,62 @@
+
+{% extends 'base.html.twig' %}
+
+{% form_theme formAdminUpdateUser 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="container">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1 style="text-align: center; color: firebrick; font-size: 60px">Gestion des informations de {{ user.username }}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card bg-dark text-primary">
+                        <div class="card-header" style="text-align: center">
+                            <h4>Modification des données de l'utilisateur</h4>
+                        </div>
+                            <div class="card-body">
+                                {{ form_start(formAdminUpdateUser) }}
+
+                                {{ form_errors(formAdminUpdateUser) }}
+
+                                {{ form_row(formAdminUpdateUser.username, {'attr': {'placeholder': "Exemple : RascarKapack"}}) }}
+
+                                {{ form_row(formAdminUpdateUser.email, {'attr': {'placeholder': "Exemple : Rascar@gmail.com"}}) }}
+
+                                {{ form_row(formAdminUpdateUser.roles) }}
+
+                                {{ form_rest(formAdminUpdateUser) }}
+
+                                <button type="submit" class="btn btn-success btn-block">
+                                    Enregistrer les modifications
+                                </button>
+
+                                {{ form_end( formAdminUpdateUser )}}
+
+                                <br>
+                                <a style="text-underline: none" href="{{ path('gestionDesUsers') }}"><button class="btn btn-info">Revenir à la liste des utilisateurs</button></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

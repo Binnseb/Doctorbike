@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Modifier un modèle</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    {{ include('modele/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+                    <br>
+                    <a href="{{ path('modele_index') }}"><button class="btn btn-info">Revenir à la liste des modèles</button></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card bg-dark text-primary">
+            <div class="card-header" style="text-align: center">
+                <h4>Veuillez remplir ce formulaire pour ajouter une moto à votre profil</h4>
+            </div>
+
+            <div class="card-body">
+
+            {{ form_start(form) }}
+
+                {{ form_errors(form) }}
+
+                {{ form_row(form.marque) }}
+
+                {{ form_row(form.modele) }}
+
+                {{ form_row(form.cylindree) }}
+
+                {{ form_row(form.annee) }}
+
+                {{ form_rest(form) }}
+
+                <button class="btn btn-success btn-large btn-block">{{ button_label|default('Ajouter la moto') }}</button>
+
+            {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
+</div>

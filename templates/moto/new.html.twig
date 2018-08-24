@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+
+    {% block body %}
+
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} text-center">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="block push text-center">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="jumbotron jumbotron-fluid">
+                            <h1>Ajouter une moto à votre profil</h1>
+                            <p>Attention ! Vous ne pouvez avoir qu'une seule fois la même moto liée à votre profil</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ include('moto/_form.html.twig') }}
+
+    {% endblock %}

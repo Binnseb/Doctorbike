@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                         <h1>Liste de tous les utilisateurs</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>Rechercher un utilisateur <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} utilisateur(s) au total)</span></h3>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   placeholder="Vous pouvez rechercher un utilisateur par son email ou son pseudo"
+                            >
+                            <div class="input-group-append">
+                                <button type="submit"
+                                        class="btn btn-primary fa fa-search">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table table-hover table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Pseudo</th>
+                        <th>Mail</th>
+                        <th>Nombre de scénarios créés</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in pagination %}
+                        <tr>
+                            {% if user.image %}
+                            <td>
+                                <img
+                                        src="{{ asset(user.image.webPath) }}"
+                                        alt="{{ user.image.alt }}"
+                                        width="60px"
+                                        height="60px"
+                                        class="img-responsive img-circle"
+                                />
+                            </td>
+                                {% else %}
+                                <td>Aucun avatar</td>
+                            {% endif %}
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.scenarios.count }}</td>
+                            <td>
+                                <a href="{{ path('gestionDesUsersUpdate', {'id': user.id}) }}"><button class="btn btn-warning">Modifier l'utilisateur</button></a>
+                            </td>
+                            <td>
+                                <a href="{{ path('user_show', {'id': user.id}) }}"><button class="btn btn-info">Voir l'utilisateur</button></a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="12">Aucun enregistrement pour le moment</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

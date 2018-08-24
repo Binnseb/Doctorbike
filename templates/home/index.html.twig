@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Doctorbike{% endblock %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push text-center">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Bienvenue sur Doctorbike</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p style="color: #880000; font-size: 20px">
+                        Doctorbike est une plateforme permettant de trouver (dans la mesure du possible) l'origine d'une panne pouvant survenir sur votre moto <br>
+
+                        Ce diagnostic se présente sous forme d'un questionnaire questions/réponses. Les différents scénarios existants sont disponibles <a href="{{ path('scenario_list') }}" style="text-underline-mode: none">ici</a>
+                    </p>
+
+                    <img id="Home" src="{{ asset('Images/Marquez.jpg') }}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

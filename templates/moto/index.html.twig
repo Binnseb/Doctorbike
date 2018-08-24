@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Liste de toutes les motos</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>Rechercher une moto <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} moto(s) au total)</span></h3>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   placeholder="Vous pouvez rechercher une moto par son modele, marque, cylindree ou année"
+                            >
+                            <div class="input-group-append">
+                                <button type="submit"
+                                        class="btn btn-primary fa fa-search">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table text-center table-hover">
+                    <thead>
+                        <tr>
+                            <th>Marque</th>
+                            <th>Modele</th>
+                            <th>Cylindree</th>
+                            <th>Annee</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for moto in pagination %}
+                        <tr>
+                            <td>{{ moto.Modele.Marque.Nom }}</td>
+                            <td>{{ moto.Modele.Nom }}</td>
+                            <td>{{ moto.Modele.Cylindree.Valeur }}</td>
+                            <td>{{ moto.Annee }}</td>
+                            <td>
+                                <a href="{{ path('moto_show', {'id': moto.id}) }}"><button class="btn btn-info">Voir la moto</button></a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="12">Aucune moto n'est enregistré pour le moment</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ knp_pagination_render(pagination, null, {}, {
+                    'position' : 'right'
+                }) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

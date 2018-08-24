@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Liste de toutes les marques</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>Rechercher une marque <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} marque(s) au total)</span><a href="{{ path('addMarque') }}" title="Cliquez pour ajouter une marque" style="float: right"><button class="btn btn-pill btn-success">+</button></a></h3>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   placeholder="Vous pouvez rechercher une marque par son nom"
+                            >
+                            <div class="input-group-append">
+                                <button type="submit"
+                                        class="btn btn-primary fa fa-search">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table table-hover table-responsive-sm">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Logo</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for marque in pagination %}
+                        <tr>
+                            <td>{{ marque.nom }}</td>
+
+
+                            <td>
+                                {% if marque.image %}
+                                <img
+                                        src="{{ asset(marque.image.webPath) }}"
+                                        alt="{{ marque.image.alt }}"
+                                        width="50px"
+                                        height="50px"
+                                        class="img-responsive img-circle"
+                                />
+                            </td>
+                                {% else %}
+                                    <td>Aucune image</td>
+                                {% endif %}
+
+                            <td><a href="{{ path('marque_show', {'id': marque.id}) }}"><button class=" btn btn-info">Voir la marque</button></a></td>
+                            <td><a href="{{ path('marque_edit', {'id': marque.id}) }}"><button class="btn btn-warning">Modifier la marque</button></a></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="12">Aucun enregistrement pour le moment</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

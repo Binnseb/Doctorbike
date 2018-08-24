@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+
+    {{ form_widget(form) }}
+
+    <button class="btn btn-success btn-block">{{ button_label|default('Save') }}</button>
+
+    {{ form_rest(form) }}
+
+{{ form_end(form) }}

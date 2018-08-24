@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formSubmitQuestionReponse'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron jumbotron-fluid text-center">
+                    <h1>Ajouter les questions/réponses du scénario</h1>
+                    <p>La liste déroulante disponible dans chaque formulaire de réponse (Oui/Non/Je ne sais pas) vous permets de définir si la réponse est une nouvelle question (par défaut)
+                        ou de préciser si la réponse repointe vers une question antérieur dans votre questionnaire.<br>
+                    Vous avez également accès aux questions pour lesquelles vous n'auriez pas encore fourni de réponses.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card text-primary bg-dark sm-12">
+                    <div class="card-header" style="text-align: center">
+                        <h2>Réponses pour la question : </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    {{ form_start(formSubmitQuestionReponse) }}
+
+                                    {{ form_errors(formSubmitQuestionReponse) }}
+
+                                    {{ form_row(formSubmitQuestionReponse.ChoixQuestion) }}
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="card bg-dark border-primary">
+                                    <div class="card-header">
+                                        <h4 style="text-align: center">Réponse si oui</h4>
+
+                                        {{ form_row(formSubmitQuestionReponse.QuestionSiOui.choixNouvelleRepOuQuestionAnt) }}
+
+                                        {{ form_row(formSubmitQuestionReponse.QuestionSiOui.estSolution) }}
+
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiOui.question) }}
+
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiOui.aide) }}
+
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiOui.image) }}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="card bg-dark border-primary">
+                                    <div class="card-header">
+                                        <h4 style="text-align: center">Réponse si non</h4>
+                                        {{ form_row(formSubmitQuestionReponse.QuestionSiNon.choixNouvelleRepOuQuestionAnt) }}
+
+                                        {{ form_row(formSubmitQuestionReponse.QuestionSiNon.estSolution) }}
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiNon.question) }}
+
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiNon.aide) }}
+
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiNon.image) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="card bg-dark border-primary">
+                                    <div class="card-header">
+                                        <h4 style="text-align: center">Réponse si je ne sais pas</h4>
+                                        {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.choixNouvelleRepOuQuestionAnt) }}
+
+                                        {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.estSolution) }}
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.question) }}
+
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.aide) }}
+
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.image) }}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_rest(formSubmitQuestionReponse) }}
+
+                    {{ form_end(formSubmitQuestionReponse) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

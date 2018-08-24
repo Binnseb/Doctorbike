@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('scenario_delete', {'id': scenario.id}) }}" onsubmit="return confirm('Êtes vous sûr de vouloir supprimer ce scénario ? (Ceci supprimera toutes les questions liées à ce scénario)');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ scenario.id) }}">
+    <button class="btn btn-danger">Supprimer</button>
+</form>
