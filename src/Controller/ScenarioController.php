@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\MotCle;
 use App\Entity\QuestionReponse;
 use App\Entity\Scenario;
+use App\Repository\MotCleRepository;
 use App\Repository\QuestionReponseRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Knp\Component\Pager\PaginatorInterface;
@@ -24,6 +24,10 @@ class ScenarioController extends Controller
     /**
      * Méthode permettant d'afficher la liste des scénarios
      * @Route("/list", name="scenario_list")
+     * @param ScenarioRepository $scenarioRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
      */
     public function index(ScenarioRepository $scenarioRepository, Request $request, PaginatorInterface $paginator): Response
     {
@@ -43,6 +47,7 @@ class ScenarioController extends Controller
     /**
      * Méthode pour le rendu de la première page lors de l'ajout d'un scénario
      * @Route("/add-first", name="add_first_scenario")
+     * @return Response
      */
     public function firstStepAddScenario()
     {
@@ -52,14 +57,15 @@ class ScenarioController extends Controller
     /**
      * Méthode pour l'ajout du scénario (avant d'ajouter les questions réponses liées)
      * @Route("/add-second", name="add_scenario")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function addScenario(Request $request, ObjectManager $manager)
     {
         $user = $this->getUser();
 
         $scenario = new Scenario();
-
-        $motCle = new MotCle();
 
         $questionReponse = new QuestionReponse();
 
@@ -76,8 +82,8 @@ class ScenarioController extends Controller
             $scenario->setEstValide(false);
             $scenario->setCreatedAt(new \DateTime());
 
-            //On ajoute les motsClé reçu dans le formulaire
-            $motCle->setNom($form->get('motCle')->getData());
+            // Liste mots-clé
+            $motscle = $form->get('motCle')->getData();
 
             //On set les questions réponses (vu que c'est la première false pour la solution et true pour estPremiereQuestion
             $questionReponse->setQuestion($form->get('question')->getData());
@@ -88,12 +94,16 @@ class ScenarioController extends Controller
             $questionReponse->setImage($form->get('image')->getData());
 
             //On ajoute les mots clés aux scénarios (table associative)
-            $scenario->addMotCle($motCle);
+
+            foreach ($motscle as $element)
+            {
+                $scenario->addMotCle($element);
+                $manager->persist($element);
+            }
 
             //On fait persister nos entitées
             $manager->persist($scenario);
             $manager->persist($questionReponse);
-            $manager->persist($motCle);
 
             $manager->flush();
 
@@ -113,6 +123,10 @@ class ScenarioController extends Controller
     /**
      * Méthode pour jouer un scénario sur base de son id et de l'id de la question
      * @Route("/play/{id}/{id_question}", name="scenario_play")
+     * @ParamConverter("questionReponse", class="App\Entity\QuestionReponse", options={"id" = "id_question"})
+     * @param Scenario $scenario
+     * @param QuestionReponse $questionReponse
+     * @return Response
      */
     public function playScenario(Scenario $scenario, QuestionReponse $questionReponse)
     {
@@ -125,6 +139,8 @@ class ScenarioController extends Controller
     /**
      * Méthode permettant de montrer un scénario sur base de son ID reçu en URL
      * @Route("/show/{id}", name="scenario_show", methods="GET")
+     * @param Scenario $scenario
+     * @return Response
      */
     public function show(Scenario $scenario): Response
     {
@@ -134,14 +150,32 @@ class ScenarioController extends Controller
     /**
      * Méthode permettant de supprimer un scénario sur base de l'id reçu en URL
      * @Route("/delete/{id}", name="scenario_delete", methods="DELETE")
+     * @param Scenario $scenario
+     * @param QuestionReponseRepository $questionReponseRepository
+     * @param MotCleRepository $motCleRepository
+     * @param Request $request
+     * @return Response
      */
-    public function delete(Request $request, Scenario $scenario, QuestionReponse $questionReponse): Response
+    public function delete(Scenario $scenario, QuestionReponseRepository $questionReponseRepository, MotCleRepository $motCleRepository, Request $request): Response
     {
         if ($this->isCsrfTokenValid('delete'.$scenario->getId(), $request->request->get('_token')))
         {
             $em = $this->getDoctrine()->getManager();
 
-            $em->remove($scenario->removeQuestionReponse($questionReponse));
+            $questionReponses = $questionReponseRepository->findAllQuestions($scenario->getId());
+
+            $motCles = $motCleRepository->findBy(['id' => $scenario->getId()]);
+
+            foreach ($questionReponses as $element)
+            {
+                $em->remove($scenario->removeQuestionReponse($element));
+            }
+
+            foreach ($motCles as $element)
+            {
+                $em->remove($scenario->removeMotCle($element));
+                $em->remove($element);
+            }
 
             $em->flush();
 

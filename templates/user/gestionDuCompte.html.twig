@@ -247,7 +247,7 @@
                                     <h5>Vous retrouverez ici tous les scénarios que vous avez créé</h5>
                                 </div>
 
-                                    <div class="card-body">        
+                                    <div class="card-body text-center">
                                         <table class="table table-striped table-responsive-sm table-bordered table-dark table-hover table-outline">
                                             <thead class="thead-dark">
                                                 <tr>
@@ -255,7 +255,6 @@
                                                     <th>Nombre de votes</th>
                                                     <th>Satisfaction</th>
                                                     <th>Nombre de Q/R</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             
@@ -263,11 +262,11 @@
                                             {% for scenario in user.scenarios %}
                                                 <tr>
                                                     
-                                                    <td class="text-center">
+                                                    <td>
                                                         {{ scenario.nom }}
                                                     </td>
-                                                    <td class="text-center">
-
+                                                    <td>
+                                                        Non disponible pour le moment
                                                     </td>
                                                     <td>
                                                         <div class="clearfix">
@@ -279,16 +278,15 @@
                                                         <div class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                                                         </div>
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td>
                                                         {{ scenario.questionReponses.count }}
                                                     </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-pill btn-block btn-warning">Modifier</button>
-                                                    </td> 
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>
                                         </table>
+                                        <br>
+                                        <a href="{{ path('scenario_list') }}"><button type="button" class="btn btn-pill btn-md btn-success">Accéder aux scénarios</button></a>
                                     </div>
                                 </div>
                             </div>    

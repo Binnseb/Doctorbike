@@ -22,6 +22,11 @@ class SecurityController extends Controller
     /**
      * Méthode permettant de confirmer l'inscription d'un utilisateur en se basant sur son id et son token reçu dans l'URL
      * @Route("/confirmEmail/{id}/{token}", name= "confirmMail")
+     * @param UserRepository $repo
+     * @param ObjectManager $manager
+     * @param $id
+     * @param $token
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function validRegistration(UserRepository $repo, ObjectManager $manager, $id, $token)
     {
@@ -59,6 +64,8 @@ class SecurityController extends Controller
     /**
      * Méthode permettant la connexion d'un utilisateur sur base de son email/mdp et que son compte soit bien validé
      * @Route("/login", name="security_login", methods="GET|POST")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
@@ -80,6 +87,7 @@ class SecurityController extends Controller
     /**
      * Méthode permettant la déconnexion de l'utilisateur
      * @Route("/logout", name="security_logout")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function logout()
     {
@@ -94,6 +102,12 @@ class SecurityController extends Controller
     /**
      * Méthode permettant d'envoyer un email à l'utilisateur pour réinitialiser son mot de passe
      * @Route("/forgetPassword", name="forgetPassword")
+     * @param UserRepository $repo
+     * @param Request $request
+     * @param \Swift_Mailer $mailer
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function forgetPassword(UserRepository $repo, Request $request, \Swift_Mailer $mailer, ObjectManager $manager)
     {
@@ -155,6 +169,14 @@ class SecurityController extends Controller
     /**
      * Méthode permettant de réinitialiser le mdp de l'utilisateur sur base de l'id et du token reçu dans l'URL
      * @Route("/resetPassword/{id}/{token}", name="resetPassword")
+     * @param UserRepository $repo
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param UserPasswordEncoderInterface $passwordencoder
+     * @param $id
+     * @param $token
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function resetPassword(UserRepository $repo, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $passwordencoder, $id, $token, User $user)
     {

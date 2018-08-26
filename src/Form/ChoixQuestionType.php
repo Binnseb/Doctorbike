@@ -22,18 +22,27 @@ class ChoixQuestionType extends AbstractType
                 'class' => 'App\Entity\QuestionReponse',
                 'placeholder' => 'Sélectionnez la question pour laquelle vous désirez écrire les réponses',
                 'query_builder' => function (QuestionReponseRepository $repo) use ($id) {
-                    $repo->findAllQuestionsAreNotSolution($id);
+                    return $repo->createQueryBuilder('qr')
+                        ->Join('qr.scenario', 's')
+                        ->where('s.id = :sid')
+                        ->andWhere('qr.estSolution = false')
+                        ->setParameter('sid', $id)
+                        ->orderBy('qr.id', 'ASC');
                 },
                 'choice_label' => 'question',
                 'mapped' => false,
                 'label' => 'Liste des questions existantes :'
-
             ])
             //Le champ permettant d'afficher toutes les questions qui seraient encore sans réponses
             ->add('listeDesQuestionsSansReponses', EntityType::class, [
                 'class' => 'App\Entity\QuestionReponse',
                 'query_builder' => function (QuestionReponseRepository $repo) use ($id) {
-                    $repo->findAllQuestionWithoutAnswer($id);
+                    return $repo->createQueryBuilder('qr')
+                        ->Join('qr.scenario', 's')
+                        ->where('s.id = :sid')
+                        ->setParameter('sid', $id)
+                        ->andWhere('qr.estSolution = false AND qr.idQuestionSiOui IS NULL AND qr.idQuestionSiNon IS NULL')
+                        ->orderBy('qr.id', 'ASC');
                 },
                 'choice_label' => 'question',
                 'required' => false,

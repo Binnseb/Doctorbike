@@ -24,7 +24,7 @@ class Scenario
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="scenarios")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="scenarios", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -45,7 +45,7 @@ class Scenario
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\MotCle", inversedBy="scenarios")
+     * @ORM\ManyToMany(targetEntity="App\Entity\MotCle", inversedBy="scenarios", orphanRemoval=true)
      */
     private $motCle;
 

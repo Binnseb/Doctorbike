@@ -20,6 +20,10 @@ class CylindreeController extends Controller
     /**
      * Méthode permettant d'afficher les cylindrées (triées par ordre croissant)
      * @Route("/list", name="cylindree_list", methods="GET")
+     * @param CylindreeRepository $cylindreeRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
      */
     public function index(CylindreeRepository $cylindreeRepository, Request $request, PaginatorInterface $paginator): Response
     {
@@ -38,6 +42,9 @@ class CylindreeController extends Controller
     /**
      * Méthode permettant d'ajouter une cylindrée
      * @Route("/new", name="cylindree_new", methods="GET|POST")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return Response
      */
     public function addCylindree(Request $request, ObjectManager $manager): Response
     {
@@ -54,6 +61,10 @@ class CylindreeController extends Controller
             $manager->flush();
 
             $this->addFlash('success', 'La cylindrée à bien été ajoutée');
+
+            return $this->redirectToRoute('cylindree_list', [
+                'formAddCylindree' => $form->createView()
+            ]);
         }
 
         if($form->isSubmitted() && !$form->isValid())
@@ -69,6 +80,8 @@ class CylindreeController extends Controller
     /**
      * Méthode permettant de montrer une cylindrée sur base de son ID en URL
      * @Route("/show/{id}", name="cylindree_show", methods="GET")
+     * @param Cylindree $cylindree
+     * @return Response
      */
     public function show(Cylindree $cylindree): Response
     {
@@ -76,8 +89,11 @@ class CylindreeController extends Controller
     }
 
     /**
-     * Méthode permettant de supprimer une cylindrée sur base de son ID en URL
+     * * Méthode permettant de supprimer une cylindrée sur base de son ID en URL
      * @Route("/{id}", name="cylindree_delete", methods="DELETE")
+     * @param Request $request
+     * @param Cylindree $cylindree
+     * @return Response
      */
     public function delete(Request $request, Cylindree $cylindree): Response
     {

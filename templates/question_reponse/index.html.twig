@@ -1,20 +1,109 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello {{ controller_name }}!{% endblock %}
+    {% block body %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} text-center">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <div class="block push">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="jumbotron jumbotron-fluid">
+                            <h1>Liste de toutes les questions du scenario</h1>
+                        </div>
+                    </div>
+                </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/QuestionReponseController.php'|file_link(0) }}">src/Controller/QuestionReponseController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/question_reponse/index.html.twig'|file_link(0) }}">templates/question_reponse/index.html.twig</a></code></li>
-    </ul>
-</div>
-{% endblock %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Rechercher une question <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} question(s) au total)</span></h3>
+                        <form>
+                            <div class="input-group mb-3">
+                                <input type="text"
+                                       name="q"
+                                       class="form-control"
+                                       placeholder="Vous pouvez rechercher une question par son nom"
+                                >
+                                <div class="input-group-append">
+                                    <button type="submit"
+                                            class="btn btn-primary fa fa-search">
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <table class="table table-dark text-center table-hover inline-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Question</th>
+                            <th>Aide</th>
+                            <th>Image</th>
+                            <th>ID si oui</th>
+                            <th>ID si non</th>
+                            <th>ID si Jnsp</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for questionReponse in pagination %}
+                            {% if questionReponse.estSolution %}
+                            <tr style="background: green">
+                            {% else %}
+                            <tr>
+                            {% endif %}
+                                <td>{{ questionReponse.id }}</td>
+                                <td>{{ questionReponse.question }}</td>
+
+                                {% if questionReponse.aide %}
+                                    <td>{{ questionReponse.aide }}</td>
+                                {% else %}
+                                    <td>Aucune aide</td>
+                                {% endif %}
+
+                                {% if questionReponse.image %}
+                                    <td>Oui</td>
+                                {% else %}
+                                    <td>Non</td>
+                                {% endif %}
+
+                                {% if questionReponse.idQuestionSiOui %}
+                                    <td>{{ questionReponse.idQuestionSiOui.id }}</td>
+                                {% else %}
+                                    <td>Aucune</td>
+                                {% endif %}
+
+                                {% if questionReponse.idQuestionSiNon %}
+                                    <td>{{ questionReponse.idQuestionSiNon.id }}</td>
+                                {% else %}
+                                    <td>Aucune</td>
+                                {% endif %}
+
+                                {% if questionReponse.idQuestionSiJenesaispas %}
+                                    <td>{{ questionReponse.idQuestionSiJenesaispas.id }}</td>
+                                {% else %}
+                                    <td>Aucune</td>
+                                {% endif %}
+
+                                <td><a href="{{ path('edit_question_reponse', {'id': questionReponse.id}) }}"><button class=" btn btn-warning">Modifier</button></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {{ knp_pagination_render(pagination) }}
+
+                    <br>
+                    <a href="{{ path('scenario_list') }}"><button class="btn btn-info">Revenir à la liste des scénario</button></a>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}

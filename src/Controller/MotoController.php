@@ -24,6 +24,10 @@ class MotoController extends Controller
      * Méthode permettant d'afficher la liste des motos (10 maximum par page)
      * (triées selon la recherche de l'utilisateur (par défaut par ordre croissant sur marque, modele, cylindree))
      * @Route("/list", name="moto_list", methods="GET")
+     * @param MotoRepository $motoRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
      */
     public function index(MotoRepository $motoRepository, Request $request, PaginatorInterface $paginator): Response
     {
@@ -43,6 +47,9 @@ class MotoController extends Controller
     /**
      * Méthode permettant d'ajouter une moto à un user (si elle n'existe pas encore dans la liste des motos et/ou des modèles on l'ajoute également)
      * @Route("/new", name="moto_new")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function userAddMoto(Request $request, ObjectManager $manager)
     {
@@ -123,6 +130,10 @@ class MotoController extends Controller
     /**
      * Méthode permettant de supprimer une moto d'un utilisateur sur base de son ID reçue en URL
      * @Route("/delete/user-moto/{id}", name="user_delete_moto", methods="GET|DELETE")
+     * @param ObjectManager $manager
+     * @param MotoRepository $repo
+     * @param $id
+     * @return Response
      */
     public function userDeleteMoto(ObjectManager $manager, MotoRepository $repo, $id): Response
     {
@@ -163,6 +174,8 @@ class MotoController extends Controller
     /**
      * Méthode permettant de montrer une moto (permettant la suppression) sur base de son ID reçue en URL
      * @Route("/show/{id}", name="moto_show", methods="GET")
+     * @param Moto $moto
+     * @return Response
      */
     public function show(Moto $moto): Response
     {
@@ -172,6 +185,9 @@ class MotoController extends Controller
     /**
      * Méthode permettant d'éditer la moto sur base de son ID reçue en URL
      * @Route("/edit/{id}", name="moto_edit", methods="GET|POST")
+     * @param Request $request
+     * @param Moto $moto
+     * @return Response
      */
     public function edit(Request $request, Moto $moto): Response
     {
@@ -193,6 +209,9 @@ class MotoController extends Controller
     /**
      * Méthode permettant de supprimer une moto sur base de son ID reçue en URL
      * @Route("/delete/{id}", name="moto_delete", methods="GET|DELETE")
+     * @param Request $request
+     * @param Moto $moto
+     * @return Response
      */
     public function delete(Request $request, Moto $moto): Response
     {
@@ -204,7 +223,7 @@ class MotoController extends Controller
 
             $em->flush();
 
-            $this->addFlash('success', 'La moto a bien été supprimée de votre profil');
+            $this->addFlash('success', 'La moto a bien été supprimée');
         }
 
         return $this->redirectToRoute('moto_list');

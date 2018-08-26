@@ -34,7 +34,7 @@
                         <th>Pseudo</th>
                         <th>Email</th>
                         <th>Inscrit depuis</th>
-                        <th></th>
+                        <th>Nombre de scénarios créés</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -43,6 +43,7 @@
                         <td>{{ user.username }}</td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.confirmedAt|date("d/m/Y") }}</td>
+                        <td>{{ user.scenarios.count }}</td>
                         <td>{{ include('user/_delete_form.html.twig') }}</td>
                     </tr>
                     </tbody>

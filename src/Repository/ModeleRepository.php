@@ -21,7 +21,7 @@ class ModeleRepository extends ServiceEntityRepository
     }
 
     /**
-     * Méthode permettant de rechercher un modèle (nom ou marque)
+     * Méthode permettant de rechercher un modèle (nom ou marque) lors de la recherche de l'user
      * @param null|string $term
      * @return QueryBuilder
      */

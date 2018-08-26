@@ -23,12 +23,17 @@
 
             <div class="row">
                 <div class="col-md-12">
+                    <div class="card bg-dark text-primary">
+                        <div class="card-header" style="text-align: center">
+                            <h4>Veuillez remplir ce formulaire pour modifier le modèle</h4>
+                        </div>
+                        <div class="card-body">
+                        {{ include('modele/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-                    {{ include('modele/_form.html.twig', {'button_label': 'Modifier'}) }}
-
-                    <br>
-                    <a href="{{ path('modele_index') }}"><button class="btn btn-info">Revenir à la liste des modèles</button></a>
-
+                        <br>
+                        <a href="{{ path('modele_index') }}"><button class="btn btn-info">Revenir à la liste des modèles</button></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

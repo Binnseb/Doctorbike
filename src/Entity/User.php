@@ -102,6 +102,7 @@ class User implements UserInterface, \Serializable
      */
     private $historiques;
 
+
     public function __construct()
     {
         $this->scenarios = new ArrayCollection();
@@ -222,9 +223,11 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function eraseCredentials() {}
+    public function eraseCredentials()
+    {
+    }
 
-    public function getSalt() 
+    public function getSalt()
     {
         return null;
     }
@@ -338,9 +341,8 @@ class User implements UserInterface, \Serializable
     {
         $motoIfExist = null;
 
-        foreach ($this->getMotos() as $element)
-        {
-            if($element == $moto) {
+        foreach ($this->getMotos() as $element) {
+            if ($element == $moto) {
                 $motoIfExist = $element;
                 break;
             }

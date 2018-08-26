@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formEditQuestionReponse'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="card bg-dark">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="jumbotron jumbotron-fluid">
+                            <h1>Modifier une question</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bg-dark text-primary">
+                            <div class="card-header" style="text-align: center">
+                                <h4>Veuillez remplir ce formulaire pour modifier la question</h4>
+                            </div>
+                            <div class="card-body">
+
+                            {{ form_start(formEditQuestionReponse) }}
+
+                            {{ form_row(formEditQuestionReponse.question) }}
+
+                            {{ form_row(formEditQuestionReponse.aide) }}
+
+                            {% if questionReponse.image %}
+                            <div class="form-group row">
+
+                                <label for="" class="col-form-label" style="margin-right: 25px; margin-left: 18px; margin-top: 25px;"><h4>Image actuelle :</h4></label>
+
+                                <div class="form-group">
+
+                                    <img
+                                            src="{{ asset(questionReponse.image.webPath) }}"
+                                            alt="{{ questionReponse.image.alt }}"
+                                            width="100px"
+                                            height="100px"
+                                            class="img-responsive img-circle"
+                                    />
+
+                                </div>
+                            </div>
+                            {% endif %}
+                            {{ form_row(formEditQuestionReponse.image) }}
+
+                            {{ form_rest(formEditQuestionReponse) }}
+
+                            {{ form_end(formEditQuestionReponse) }}
+
+                            <br>
+                            <a href="{{ path('list_question_reponse', {'id': questionReponse.scenario.id}) }}"><button class="btn btn-info">Revenir à la liste des questions</button></a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

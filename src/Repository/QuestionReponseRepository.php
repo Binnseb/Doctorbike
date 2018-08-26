@@ -28,9 +28,10 @@ class QuestionReponseRepository extends ServiceEntityRepository
     public function findAllQuestions($id)
     {
         $qb = $this->createQueryBuilder('qr')
-            ->innerJoin('qr.scenario', 's')
+            ->Join('qr.scenario', 's')
             ->where('s.id = :sid')
             ->setParameter('sid', $id)
+            ->andWhere('qr.estSolution = false')
             ->orderBy('qr.id', 'ASC');
 
         return $qb->getQuery()->getResult();
@@ -44,7 +45,7 @@ class QuestionReponseRepository extends ServiceEntityRepository
     public function findAllQuestionWithoutAnswer($id)
     {
         $qb = $this->createQueryBuilder('qr')
-            ->innerJoin('qr.scenario', 's')
+            ->Join('qr.scenario', 's')
             ->where('s.id = :sid')
             ->setParameter('sid', $id)
             ->andWhere('qr.estSolution = false AND qr.idQuestionSiOui IS NULL AND qr.idQuestionSiNon IS NULL')
@@ -62,7 +63,7 @@ class QuestionReponseRepository extends ServiceEntityRepository
     public function findAllQuestionsAreNotSolution($id)
     {
         $qb = $this->createQueryBuilder('qr')
-            ->innerJoin('qr.scenario', 's')
+            ->Join('qr.scenario', 's')
             ->where('s.id = :sid')
             ->setParameter('sid', $id)
             ->andWhere('qr.estSolution = false')
@@ -72,21 +73,28 @@ class QuestionReponseRepository extends ServiceEntityRepository
     }
 
     /**
-     * Méthode permettant de retrouver la première question d'un scénario pour le jouer
-     * @param $id
-     * @return mixed
+     * Méthode permettant de faire une recherche sur les questions lors de la recherche de l'user
+     * @param null|string $term
+     * @return QueryBuilder
      */
-    public function findFirstQuestion($id)
+    public function getWithSearchQueryBuilder(?string $term, $id):QueryBuilder
     {
         $qb = $this->createQueryBuilder('qr')
-            ->innerJoin('qr.scenario', 's')
-            ->where('s.id = :sid')
+            ->Join('qr.scenario', 's')
+            ->addSelect('qr')
+            ->Where('s.id = :sid')
             ->setParameter('sid', $id)
-            ->andWhere('qr.estPremiereQuestion = true')
             ->orderBy('qr.id', 'ASC');
-
-        return $qb->getQuery()->getResult();
+        if ($term) {
+            $qb->andWhere('qr.question LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+        return $qb
+            ->orderBy('s.nom', 'ASC')
+            ;
     }
+
 
 //    /**
 //     * @return QuestionReponse[] Returns an array of QuestionReponse objects

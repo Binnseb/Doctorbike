@@ -50,13 +50,16 @@ security:
     # Note: Only the *first* access control that matches will be used
 
     role_hierarchy:
-            ROLE_ADMIN: ROLE_USER
+            ROLE_MODERATEUR: ROLE_USER
+            ROLE_ADMIN: ROLE_MODERATEUR
 
     access_control:
           - { path: ^/user/gestionDuCompte, roles: ROLE_USER }
           - { path: ^/moto/new, roles: ROLE_USER }
-          - { path: ^/scenario, roles: ROLE_USER}
-          - { path: ^/questionReponse, roles: ROLE_USER}
+          - { path: ^/scenario/list, roles: ROLE_USER}
+          - { path: ^/scenario/play, roles: ROLE_USER}
+          - { path: ^/scenario, roles: ROLE_MODERATEUR}
+          - { path: ^/questionReponse, roles: ROLE_MODERATEUR}
           - { path: ^/user/update/*, roles: ROLE_ADMIN }
           - { path: ^/user/show, roles: ROLE_ADMIN }
           - { path: ^/user/delete, roles: ROLE_ADMIN }

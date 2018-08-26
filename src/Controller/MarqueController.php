@@ -20,6 +20,10 @@ class MarqueController extends Controller
     /**
      * Méthode pour le rendu de la page d'acceuil des marques (triées par ordre croissant)
      * @Route("/list", name="marque_index", methods="GET")
+     * @param MarqueRepository $marqueRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
      */
     public function index(MarqueRepository $marqueRepository, Request $request, PaginatorInterface $paginator): Response
     {
@@ -38,6 +42,9 @@ class MarqueController extends Controller
     /**
      * Méthode permettant d'ajouter une marque
      * @Route("/new", name="addMarque", methods="GET|POST")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return Response
      */
     public function addMarque(Request $request, ObjectManager $manager): Response
     {
@@ -54,6 +61,10 @@ class MarqueController extends Controller
             $manager->flush();
 
             $this->addFlash('success', 'La marque à bien été ajoutée');
+
+            return $this->redirectToRoute('marque_index', [
+                'formAddMarque' => $form->createView()
+            ]);
         }
 
         if($form->isSubmitted() && !$form->isValid())
@@ -69,6 +80,8 @@ class MarqueController extends Controller
     /**
      * Méthode permettant de montrer une marque sur base de son ID reçue en URL
      * @Route("/show/{id}", name="marque_show", methods="GET")
+     * @param Marque $marque
+     * @return Response
      */
     public function show(Marque $marque): Response
     {
@@ -78,6 +91,9 @@ class MarqueController extends Controller
     /**
      * Méthode permettant d'éditer une marque sur base de son ID reçue en URL
      * @Route("/edit/{id}", name="marque_edit", methods="GET|POST")
+     * @param Request $request
+     * @param Marque $marque
+     * @return Response
      */
     public function edit(Request $request, Marque $marque): Response
     {
@@ -108,6 +124,9 @@ class MarqueController extends Controller
     /**
      * Méthode permettant de supprimer une marque sur base de son ID reçue en URL
      * @Route("/delete/{id}", name="marque_delete", methods="DELETE")
+     * @param Request $request
+     * @param Marque $marque
+     * @return Response
      */
     public function delete(Request $request, Marque $marque): Response
     {

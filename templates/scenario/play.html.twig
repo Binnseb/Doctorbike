@@ -16,63 +16,64 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card bg-dark mb-3 text-white text-center">
-                        {% if questionReponse.estSolution %}
-                        <div class="card-header bg-success">
-                                <h2 style="color: black">Solution !</h2>
-                            {% else %}
-                            <div class="card-header bg-primary">
-                                <h2 style="color: black">Question</h2>
-                            {% endif %}
-                        </div>
+                    {% if questionReponse.estSolution %}
+                    <div class="card-header bg-success">
+                            <h2 style="color: black">Solution !</h2>
+                        {% else %}
+                        <div class="card-header bg-primary">
+                            <h2 style="color: black">Question</h2>
+                        {% endif %}
+                    </div>
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" id="playQR">
                                 {{ questionReponse.question }}
                             </div>
                         </div>
-
+                        <hr>
+                        {% if questionReponse.aide %}
                         <div class="row">
-                            <div class="col-sm-12" style="margin-top: 10px">
-                                {% if questionReponse.aide %}
-                                <h4>Aide :</h4>
+                            <div class="col-sm-12" style="margin-top: 10px" id="playQR">
+                                <h4 class="text-primary">Aide :</h4>
                                 {{ questionReponse.aide }}
-                                {% endif %}
                             </div>
                         </div>
-
+                        <hr>
+                        {% endif %}
+                        {% if questionReponse.image %}
                         <div class="row">
                             <div class="col-sm-12" style="margin-bottom: 20px">
-                                {% if questionReponse.image %}
-                                    <h4>Image :</h4>
-                                    <td>
-                                    <img
-                                            src="{{ asset(questionReponse.image.webPath) }}"
-                                            alt="{{ questionReponse.image.alt }}"
-                                            width="400px"
-                                            height="300px"
-                                            class="img-responsive img-circle"
-                                    />
-                                    </td>
-                                {% endif %}
+                                <h4 class="text-primary">Image d'aide :</h4>
+                                <td>
+                                <img
+                                        src="{{ asset(questionReponse.image.webPath) }}"
+                                        alt="{{ questionReponse.image.alt }}"
+                                        width="400px"
+                                        height="300px"
+                                        class="img-responsive img-circle"
+                                />
+                                </td>
                             </div>
                         </div>
+                        {% endif %}
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <form action="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.id}) }}" method="post" name="form">
-                                    <a><button type="submit" href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiOui.id}) }}" class="col-mb-6 btn btn-success" style="display: block; float: left; width: 50%; margin-left: -5px;"><h4>Oui</h4></button></a>
-                                    <a><button type="submit" href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiNon.id}) }}" class="col-mb-6 btn btn-danger" style="display: block; float: right; width: 50%; margin-right: -5px"><h4>Non</h4></button></a>
-                                    {% if questionReponse.estSolution %}
-                                        <p>Cette réponse vous a t'elle été utile ?</p><br>
-                                        <button type="submit" class="col-mb-6 btn btn-primary" style="display: block; float: left; width: 50%; margin-left: -5px;"><h4>Oui</h4></button>
-                                        <button type="submit" class="col-mb-6 btn btn-danger" style="display: block;  float: right; width: 50%; margin-left: 5px;"><h4>Non</h4></button>
-                                    {% else %}
-                                    {% if questionReponse.idQuestionSiJenesaispas %}
+                                {% if questionReponse.idQuestionSiOui %}
+                                    <a href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiOui.id}) }}" class="btn btn-success btn-inline" style="display: block; float: right; width: 50%; margin-left: -5px;">Oui</a>
+                                {% endif %}
+                                {% if questionReponse.idQuestionSiNon %}
+                                    <a href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiNon.id}) }}" class="btn btn-danger  btn-inline" style="display: block; float: left; width: 50%; margin-left: -5px;">Non</a>
+                                {% endif %}
+                                {% if questionReponse.estSolution %}
+                                    <p>Cette réponse vous a t'elle été utile ?</p><br>
+                                    <button type="submit" class="col-mb-6 btn btn-primary" style="display: block; float: left; width: 50%; margin-left: -5px;"><h4>Oui</h4></button>
+                                    <button type="submit" class="col-mb-6 btn btn-danger" style="display: block;  float: right; width: 50%; margin-left: 5px;"><h4>Non</h4></button>
+                                {% endif %}
+                                {% if questionReponse.idQuestionSiJenesaispas %}
                                     <a><button type="submit" href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiJenesaispas.id}) }}" class="col-mb-6 btn btn-primary" style="display: block; float: left; width: 50%; margin-left: -5px;"><h4>Je ne sais pas</h4></button></a>
-                                    {% endif %}
-                                    {% endif %}
-                                </form>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

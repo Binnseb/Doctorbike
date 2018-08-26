@@ -15,7 +15,7 @@ class MotCleType extends AbstractType
         $builder
             ->add('nom', TextType::class,
             [
-                'label' => 'Les mots clé liés à votre scénario',
+                'label' => 'Le mot clé',
                 'required' => false
             ])
         ;

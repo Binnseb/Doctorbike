@@ -28,6 +28,7 @@ class AdminUpdateUserType extends AbstractType
                 'expanded' => true,
                 'choices' => [
                     'User' => 'ROLE_USER',
+                    'Modérateur' => 'ROLE_MODERATEUR',
                     'Admin' => 'ROLE_ADMIN'
                 ],
             ])

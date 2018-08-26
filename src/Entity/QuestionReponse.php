@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuestionReponseRepository")
@@ -29,11 +30,14 @@ class QuestionReponse
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="10", minMessage="Votre question est trop courte, êtes vous sûr de l'avoir bien formulée ?")
+     * @Assert\Length(max="255", maxMessage="Votre question est trop longue ! N'hésitez pas à vous servir du champ aide si besoin")
      */
     private $question;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max="255", maxMessage="Votre question est trop longue ! N'hésitez pas à vous servir du champ aide si besoin")
      */
     private $aide;
 

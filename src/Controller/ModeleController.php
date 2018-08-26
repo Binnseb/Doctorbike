@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Modele;
-use App\Entity\NomModele;
 use App\Form\ModeleType;
 use App\Form\AddModeleType;
 use App\Repository\ModeleRepository;
@@ -23,6 +22,10 @@ class ModeleController extends Controller
      * Méthode permettant d'afficher la liste des modèles (10 maximum par page)
      * (triées selon la recherche de l'utilisateur (par défaut par ordre croissant sur marque, modele, cylindree))
      * @Route("/list", name="modele_index", methods="GET")
+     * @param ModeleRepository $modeleRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
      */
     public function index(ModeleRepository $modeleRepository, Request $request, PaginatorInterface $paginator): Response
     {
@@ -43,6 +46,9 @@ class ModeleController extends Controller
     /**
      * Méthode permettant d'ajouter un modèle
      * @Route("/new", name="modele_new", methods="GET|POST")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return Response
      */
     public function new(Request $request, ObjectManager $manager): Response
     {
@@ -78,6 +84,8 @@ class ModeleController extends Controller
     /**
      * Méthode permettant de monter un modèle sur base de son ID reçue en URL
      * @Route("/show/{id}", name="modele_show", methods="GET")
+     * @param Modele $modele
+     * @return Response
      */
     public function show(Modele $modele): Response
     {
@@ -87,6 +95,9 @@ class ModeleController extends Controller
     /**
      * Méthode permettant d'éditer un modèle sur base de son ID reçue en URl
      * @Route("/edit/{id}", name="modele_edit", methods="GET|POST")
+     * @param Request $request
+     * @param Modele $modele
+     * @return Response
      */
     public function edit(Request $request, Modele $modele): Response
     {
@@ -112,6 +123,9 @@ class ModeleController extends Controller
     /**
      * Méthode permettant de supprimer un modèle sur base de son ID reçue en URL
      * @Route("/delete/{id}", name="modele_delete", methods="DELETE")
+     * @param Request $request
+     * @param Modele $modele
+     * @return Response
      */
     public function delete(Request $request, Modele $modele): Response
     {

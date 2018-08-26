@@ -23,6 +23,7 @@ class ScenarioType extends AbstractType
                 'entry_type' => MotCleType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'by_reference' => false,
                 'prototype' => true
              ])
             ->add('question', TextareaType::class, [

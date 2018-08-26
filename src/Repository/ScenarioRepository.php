@@ -21,7 +21,7 @@ class ScenarioRepository extends ServiceEntityRepository
     }
 
     /**
-     * Méthode permettant de faire une recherche sur les scénario (nom ou mots clé)
+     * Méthode permettant de faire une recherche sur les scénario (nom ou mots clé) lors de la recherche de l'user
      * @param null|string $term
      * @return QueryBuilder
      */

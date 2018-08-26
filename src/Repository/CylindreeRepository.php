@@ -21,7 +21,7 @@ class CylindreeRepository extends ServiceEntityRepository
     }
 
     /**
-     * Méthode permettant de rechercher une cylindrée par sa valeur
+     * Méthode permettant de rechercher une cylindrée par sa valeur lors de la recherche de l'user
      * @param null|string $term
      * @return QueryBuilder
      */

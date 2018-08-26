@@ -38,16 +38,19 @@
 
                             {{ form_row(formAddScenario.nom, {'attr': {'placeholder': "Exemple : Ma moto ne démarre pas"}}) }}
 
+
+
                             <div class="row js-keyword-wrapper"
                                  data-prototype="{{ form_widget(formAddScenario.motCle.vars.prototype)|e('html_attr') }}"
                                  data-index="{{ formAddScenario.motCle|length }}"
                             >
-                                {% for keywordForm in formAddScenario.motCle %}
-                                    <div class="col-xs-4 js-keyword-item">
-                                        <a href="#" class="js-remove-keyword pull-right">
+                                {% for motCleType in formAddScenario.motCle %}
+                                    <div class=" js-keyword-item">
+                                        <a href="#" class="js-remove-keyword">
                                             <span class="fa fa-close"></span>
                                         </a>
-                                        {{ form_row(formAddScenario.motCle) }}
+                                        {{ form_row(formAddScenario.motCle, {'attr' : {'label' : 'Mot clé'}}) }}
+                                        {{ form_row(motCleType.motCle) }}
                                     </div>
                                 {% endfor %}
                                 <a href="#" class="js-keyword-add">
@@ -75,34 +78,5 @@
             </div>
         </div>
     </div>
-
-    {% block javascripts %}
-        {{ parent() }}
-        <script>
-            jQuery(document).ready(function() {
-                var $wrapper = $('.js-keyword-wrapper');
-                $wrapper.on('click', '.js-remove-keyword', function(e) {
-                    e.preventDefault();
-                    $(this).closest('.js-keyword-item')
-                        .fadeOut()
-                        .remove();
-                });
-                $wrapper.on('click', '.js-keyword-add', function(e) {
-                    e.preventDefault();
-                    // Get the data-prototype explained earlier
-                    var prototype = $wrapper.data('prototype');
-                    // get the new index
-                    var index = $wrapper.data('index');
-                    // Replace '__name__' in the prototype's HTML to
-                    // instead be a number based on how many items we have
-                    var newForm = prototype.replace(/__name__/g, index);
-                    // increase the index with one for the next item
-                    $wrapper.data('index', index + 1);
-                    // Display the form in the page before the "new" link
-                    $(this).before(newForm);
-                });
-            });
-        </script>
-    {% endblock %}
 
 {% endblock %}

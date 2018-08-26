@@ -47,7 +47,7 @@
                         <th>Avatar</th>
                         <th>Pseudo</th>
                         <th>Mail</th>
-                        <th>Nombre de scénarios créés</th>
+                        <th>Rôle</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -70,7 +70,9 @@
                             {% endif %}
                             <td>{{ user.username }}</td>
                             <td>{{ user.email }}</td>
-                            <td>{{ user.scenarios.count }}</td>
+                            {% for role in user.roles %}
+                            <td>{{ role }}</td>
+                            {% endfor %}
                             <td>
                                 <a href="{{ path('gestionDesUsersUpdate', {'id': user.id}) }}"><button class="btn btn-warning">Modifier l'utilisateur</button></a>
                             </td>

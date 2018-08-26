@@ -38,7 +38,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     }
 
     /**
-     * Méthode permettant de rechercher un user (par son nom ou email)
+     * Méthode permettant de rechercher un user (par son nom ou email) lors de la recherche de l'user
      * @param null|string $term
      * @return QueryBuilder
      */
@@ -56,7 +56,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     }
 
     /**
-     * Méthode permettant de trouver tous les scénarios d'un user
+     * Méthode permettant de trouver tous les scénarios d'un user pour l'affichage dans la gestion du compte
      * @param null|string $term
      * @param $id
      * @return QueryBuilder

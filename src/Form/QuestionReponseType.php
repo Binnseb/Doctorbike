@@ -24,7 +24,11 @@ class QuestionReponseType extends AbstractType
             ->add('choixNouvelleRepOuQuestionAnt', EntityType::class, [
                 'class' => 'App\Entity\QuestionReponse',
                 'query_builder' => function(QuestionReponseRepository $repo) use ($id){
-                            $repo->findAllQuestions($id);
+                            return $repo->createQueryBuilder('qr')
+                                ->Join('qr.scenario', 's')
+                                ->where('s.id = :sid')
+                                ->setParameter('sid', $id)
+                                ->orderBy('qr.id', 'ASC');
                 },
                 'choice_label' => 'question',
                 'label' => 'La question est :',

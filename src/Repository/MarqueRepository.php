@@ -21,7 +21,7 @@ class MarqueRepository extends ServiceEntityRepository
     }
 
     /**
-     * Méthode permettant de rechercher une marque par son nom
+     * Méthode permettant de rechercher une marque par son nom lors de la recherche de l'user
      * @param null|string $term
      * @return QueryBuilder
      */

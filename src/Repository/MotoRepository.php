@@ -25,7 +25,7 @@ class MotoRepository extends ServiceEntityRepository
     }
 
     /**
-     * Méthode permettant de faire une recherche sur les motos (marque, modele, cylindrée ou année)
+     * Méthode permettant de faire une recherche sur les motos (marque, modele, cylindrée ou année) lors de la recherche de l'user
      * @param null|string $term
      * @return QueryBuilder
      */

@@ -84,6 +84,9 @@ class UserController extends Controller
     /**
      * Méthode permettant de mettre à jour les informations de l'utilisateur en cours
      * @Route("/gestionDuCompte", name="gestionDuCompte")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return Response
      */
     public function updateUser(Request $request, ObjectManager $manager)
     {
@@ -113,10 +116,14 @@ class UserController extends Controller
         ]);
     }
 
-     /**
-      * Méthode permettant d'afficher tous les utilisateurs (admin)
-      * Ces derniers sont soit triés par l'utilisateur ou afficher par défaut selon leur pseudo par ordre croissant
+    /**
+     * Méthode permettant d'afficher tous les utilisateurs (admin)
+     * Ces derniers sont soit triés par l'utilisateur ou afficher par défaut selon leur pseudo par ordre croissant
      * @Route("/gestionDesUsers", name="gestionDesUsers")
+     * @param UserRepository $userRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
      */
     public function gestionDesUsers(UserRepository $userRepository, Request $request, PaginatorInterface $paginator)
     {
@@ -136,6 +143,9 @@ class UserController extends Controller
     /**
      * Méthode permettant à un administrateur de modifier un compte (sauf l'image car personnel) sur base de son ID en URL
      * @Route("/update/{id}", name="gestionDesUsersUpdate")
+     * @param Request $request
+     * @param User $user
+     * @return Response
      */
     public function adminEditUser(Request $request, User $user): Response
     {
@@ -161,6 +171,8 @@ class UserController extends Controller
     /**
      * Méthode permettant à un administrateur de voir un utilisateur (et le supprimer) sur base de son ID en URL
      * @Route("/show/{id}", name="user_show")
+     * @param User $user
+     * @return Response
      */
     public function showUser(User $user): Response
     {
@@ -170,6 +182,9 @@ class UserController extends Controller
     /**
      * Méthode permettant à un administrateur de supprimer un user sur base de son ID en URL
      * @Route("/delete/{id}", name="user_delete", methods="GET|DELETE")
+     * @param Request $request
+     * @param User $user
+     * @return Response
      */
     public function deleteUser(Request $request, User $user): Response
     {

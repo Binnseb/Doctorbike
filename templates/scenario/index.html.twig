@@ -22,7 +22,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <h3>Rechercher un scénario <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} scénario(s) au total)</span><a href="{{ path('add_first_scenario') }}" title="Cliquez pour ajouter un scénario" style=" float: right" ><button class="btn btn-pill btn-success" >+</button></a></h3>
+                    <h3>Rechercher un scénario <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} scénario(s) au total)</span>{% if is_granted('ROLE_MODERATEUR') %}<a href="{{ path('add_first_scenario') }}" title="Cliquez pour ajouter un scénario" style=" float: right" ><button class="btn btn-pill btn-success" >+</button></a>{% endif %}</h3>
                     <form>
                         <div class="input-group mb-3">
                             <input type="text"
@@ -77,8 +77,11 @@
                             <td></td>
                             <td></td>
                             <td>
-                                <a href="{{ path('scenario_play', {'id': scenario.id, 'id_question' :scenario.questionReponses.id}) }}"><button class="btn btn-success">Démarrer</button></a>
+                                <a href="{{ path('scenario_play', {'id': scenario.id, 'id_question' :scenario.questionReponses.first.id}) }}"><button class="btn btn-success">Démarrer</button></a>
                             </td>
+                            {% if is_granted('ROLE_MODERATEUR') %}
+                                <td><a href="{{ path('list_question_reponse', {'id': scenario.id}) }}"><button class=" btn btn-warning">Modifier</button></a></td>
+                            {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
                             <td><a href="{{ path('scenario_show', {'id': scenario.id}) }}"><button class=" btn btn-info">Voir le scénario</button></a></td>
                             {% endif %}
