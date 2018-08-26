@@ -22,7 +22,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <h3>Rechercher une cylindrée <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} cylindrée(s) au total)</span><a href="{{ path('cylindree_new') }}" title="Cliquez pour ajouter une cylindrée"> <button style="float: right" class="btn btn-pill btn-success">+</button></a></h3>
+                    <h3>Rechercher une cylindrée <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} cylindrée(s) au total)</span><a href="{{ path('cylindree_new') }}" title="Cliquez pour ajouter une cylindrée" style="float: right" class="btn btn-pill btn-success">+</a></h3>
                     <form>
                         <div class="input-group mb-3">
                             <input type="text"
@@ -45,7 +45,7 @@
                     <thead>
                         <tr>
                             <th>Valeur</th>
-                            <th></th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,7 +53,7 @@
                         <tr>
                             <td>{{ cylindree.valeur }}</td>
                             <td colspan="6">
-                                <a href="{{ path('cylindree_show', {'id': cylindree.id}) }}"><button class="btn-info btn">Voir la cylindrée</button></a>
+                                <a href="{{ path('cylindree_show', {'id': cylindree.id}) }}" class="btn-info btn">Voir la cylindrée</a>
                             </td>
                         </tr>
                     {% else %}

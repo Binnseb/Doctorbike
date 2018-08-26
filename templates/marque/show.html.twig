@@ -14,13 +14,15 @@
 
             <div class="row">
                 <table class="table table-hover table-responsive-sm">
-                    <tbody>
+                    <thead>
                         <tr>
                             <th>Nom</th>
                             <th>Logo</th>
                             <th></th>
 
                         </tr>
+                    </thead>
+                    <tbody>
                         <tr>
                             <td>{{ marque.nom }}</td>
                             <td>
@@ -40,7 +42,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <a href="{{ path('marque_index') }}"><button class="btn btn-info">Revenir à la liste des marques</button></a>
+                <a href="{{ path('marque_index') }}" class="btn btn-info">Revenir à la liste des marques</a>
             </div>
         </div>
     </div>

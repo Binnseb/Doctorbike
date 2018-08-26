@@ -102,7 +102,7 @@ class CylindreeController extends Controller
             $em->remove($cylindree);
             $em->flush();
 
-            $this->addFlash('danger', 'La cylindrée à bien été supprimée');
+            $this->addFlash('success', 'La cylindrée à bien été supprimée');
         }
 
         return $this->redirectToRoute('cylindree_list');

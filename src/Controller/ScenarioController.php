@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Historique;
 use App\Entity\QuestionReponse;
 use App\Entity\Scenario;
+use App\Form\VoteType;
 use App\Repository\MotCleRepository;
 use App\Repository\QuestionReponseRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -128,12 +130,48 @@ class ScenarioController extends Controller
      * @param QuestionReponse $questionReponse
      * @return Response
      */
-    public function playScenario(Scenario $scenario, QuestionReponse $questionReponse)
+    public function playScenario(Scenario $scenario, QuestionReponse $questionReponse, Request $request, ObjectManager $manager)
     {
-        return $this->render('scenario/play.html.twig',
-            ['scenario' => $scenario,
-            'questionReponse' => $questionReponse]
-        );
+        $user = $this->getUser();
+
+        $historique = new Historique();
+
+        $formVote = $this->createForm(VoteType::class, $historique, ['id' => $user->getId()]);
+
+        $formVote->handleRequest($request);
+
+        if ($formVote->isSubmitted() && $formVote->isValid())
+        {
+
+            if($formVote->get('VoteOui')->isSubmitted() && $formVote->get('VoteOui')->isValid())
+            {
+                $historique->setScenario($scenario);
+                $historique->setSolution($questionReponse);
+                $historique->setUser($user);
+                $historique->setVoteReponse(true);
+
+            }
+            else if($formVote->get('VoteNon')->isSubmitted() && $formVote->get('VoteNon')->isValid())
+            {
+                $historique->setScenario($scenario);
+                $historique->setSolution($questionReponse);
+                $historique->setUser($user);
+                $historique->setVoteReponse(false);
+            }
+
+            $manager->persist($historique);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre vote a bien été enregistré');
+
+            return $this->redirectToRoute('scenario_list');
+        }
+        return $this->render('scenario/play.html.twig', [
+            'scenario' => $scenario,
+            'questionReponse' => $questionReponse,
+            'formVote' => $formVote->createView()
+            ]);
     }
 
     /**

@@ -44,23 +44,34 @@
                 <table class="table text-center table-hover">
                     <thead>
                         <tr>
+                            <th>Logo</th>
                             <th>Marque</th>
                             <th>Modele</th>
                             <th>Cylindree</th>
                             <th>Annee</th>
-                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for moto in pagination %}
                         <tr>
+                            <td>
+                                {% if moto.Modele.marque.image %}
+                                    <img
+                                            src="{{ asset(moto.Modele.marque.image.webPath) }}"
+                                            alt="{{ moto.Modele.marque.image.alt }}"
+                                            width="50px"
+                                            height="50px"
+                                            class="img-responsive img-circle"
+                                    />
+                                {% endif %}
+                            </td>
                             <td>{{ moto.Modele.Marque.Nom }}</td>
                             <td>{{ moto.Modele.Nom }}</td>
                             <td>{{ moto.Modele.Cylindree.Valeur }}</td>
                             <td>{{ moto.Annee }}</td>
                             <td>
-                                <a href="{{ path('moto_show', {'id': moto.id}) }}"><button class="btn btn-info">Voir la moto</button></a>
+                                <a href="{{ path('moto_show', {'id': moto.id}) }}" class="btn btn-info">Voir la moto</a>
                             </td>
                         </tr>
                     {% else %}
@@ -71,7 +82,7 @@
                     </tbody>
                 </table>
                 {{ knp_pagination_render(pagination, null, {}, {
-                    'position' : 'right'
+                   'style': {'float' : 'right'}
                 }) }}
             </div>
         </div>

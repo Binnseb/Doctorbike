@@ -17,9 +17,11 @@
             <div class="col-md-12">
                 <div class="jumbotron jumbotron-fluid text-center">
                     <h1>Ajouter les questions/réponses du scénario</h1>
-                    <p>La liste déroulante disponible dans chaque formulaire de réponse (Oui/Non/Je ne sais pas) vous permets de définir si la réponse est une nouvelle question (par défaut)
-                        ou de préciser si la réponse repointe vers une question antérieur dans votre questionnaire.<br>
-                    Vous avez également accès aux questions pour lesquelles vous n'auriez pas encore fourni de réponses.</p>
+                    <p>La première liste vous permet de cibler la question pour laquelle vous allez écrire les réponses.<br>
+                    La seconde vous permets de voir les questions qui n'ont pas encore de réponses.<br>
+                    La liste déroulante disponible dans chaque formulaire de réponse (Oui/Non/Je ne sais pas) vous permets de définir si la réponse est une nouvelle question (par défaut)
+                    ou de préciser si la réponse repointe vers une question antérieur dans votre questionnaire.
+                    </p>
                 </div>
             </div>
         </div>
@@ -55,14 +57,14 @@
 
                                         {{ form_row(formSubmitQuestionReponse.QuestionSiOui.choixNouvelleRepOuQuestionAnt) }}
 
-                                        {{ form_row(formSubmitQuestionReponse.QuestionSiOui.estSolution) }}
-
                                     </div>
 
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiOui.estSolution) }}
+
                                                     {{ form_row(formSubmitQuestionReponse.QuestionSiOui.question) }}
 
                                                     {{ form_row(formSubmitQuestionReponse.QuestionSiOui.aide) }}
@@ -81,14 +83,14 @@
                                     <div class="card-header">
                                         <h4 style="text-align: center">Réponse si non</h4>
                                         {{ form_row(formSubmitQuestionReponse.QuestionSiNon.choixNouvelleRepOuQuestionAnt) }}
-
-                                        {{ form_row(formSubmitQuestionReponse.QuestionSiNon.estSolution) }}
                                     </div>
 
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiNon.estSolution) }}
+
                                                     {{ form_row(formSubmitQuestionReponse.QuestionSiNon.question) }}
 
                                                     {{ form_row(formSubmitQuestionReponse.QuestionSiNon.aide) }}
@@ -106,14 +108,14 @@
                                     <div class="card-header">
                                         <h4 style="text-align: center">Réponse si je ne sais pas</h4>
                                         {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.choixNouvelleRepOuQuestionAnt) }}
-
-                                        {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.estSolution) }}
                                     </div>
 
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="form-group">
+                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.estSolution) }}
+
                                                     {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.question) }}
 
                                                     {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.aide) }}
@@ -128,6 +130,8 @@
                             </div>
                         </div>
                     </div>
+                    {{ form_row(formSubmitQuestionReponse.Suivant) }}
+
                     {{ form_rest(formSubmitQuestionReponse) }}
 
                     {{ form_end(formSubmitQuestionReponse) }}

@@ -56,6 +56,8 @@ security:
     access_control:
           - { path: ^/user/gestionDuCompte, roles: ROLE_USER }
           - { path: ^/moto/new, roles: ROLE_USER }
+          - { path: /delete/user-historique, roles: ROLE_USER}
+          - { path: /delete/user-moto, roles: ROLE_USER}
           - { path: ^/scenario/list, roles: ROLE_USER}
           - { path: ^/scenario/play, roles: ROLE_USER}
           - { path: ^/scenario, roles: ROLE_MODERATEUR}

@@ -22,7 +22,7 @@
 
                 <div class="row">
                     <div class="col-sm-12">
-                        <h3>Rechercher une question <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} question(s) au total)</span></h3>
+                        <h3>Rechercher une question <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} question(s) au total)</span><a href="{{ path('scenario_list') }}" class="btn btn-info text-right" style="float: right">Revenir à la liste des scénarios</a></h3>
                         <form>
                             <div class="input-group mb-3">
                                 <input type="text"
@@ -44,13 +44,14 @@
                     <table class="table table-dark text-center table-hover inline-table">
                         <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Question</th>
-                            <th>Aide</th>
-                            <th>Image</th>
-                            <th>ID si oui</th>
-                            <th>ID si non</th>
-                            <th>ID si Jnsp</th>
+                            <th style="vertical-align: middle">ID</th>
+                            <th style="vertical-align: middle">Question</th>
+                            <th style="vertical-align: middle">Aide</th>
+                            <th style="vertical-align: middle">Image</th>
+                            <th style="vertical-align: middle">ID si oui</th>
+                            <th style="vertical-align: middle">ID si non</th>
+                            <th style="vertical-align: middle">ID si Jnsp</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -93,15 +94,14 @@
                                     <td>Aucune</td>
                                 {% endif %}
 
-                                <td><a href="{{ path('edit_question_reponse', {'id': questionReponse.id}) }}"><button class=" btn btn-warning">Modifier</button></a></td>
+                                <td>
+                                    <a href="{{ path('edit_question_reponse', {'id': questionReponse.id}) }}" class=" btn btn-warning">Modifier</a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                     {{ knp_pagination_render(pagination) }}
-
-                    <br>
-                    <a href="{{ path('scenario_list') }}"><button class="btn btn-info">Revenir à la liste des scénario</button></a>
                 </div>
             </div>
         </div>

@@ -39,7 +39,8 @@ class QuestionReponseType extends AbstractType
 
             ->add('estSolution', CheckboxType::class, [
                 'mapped' => false,
-                'required' => false
+                'required' => false,
+                'label' => 'Est une solution'
             ])
 
             ->add('question', TextareaType::class, [

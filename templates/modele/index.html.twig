@@ -23,7 +23,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <h3>Rechercher un modele <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} modèle(s) au total)</span><a href="{{ path('modele_new') }}" title="Cliquez pour ajouter un modèle" style=" float: right" ><button class="btn btn-pill btn-success" >+</button></a></h3>
+                    <h3>Rechercher un modele <span style="font-weight: bold; color: dodgerblue; font-size: 25px">({{ pagination.getTotalItemCount }} modèle(s) au total)</span><a href="{{ path('modele_new') }}" title="Cliquez pour ajouter un modèle" style=" float: right" class="btn btn-pill btn-success" >+</a></h3>
                     <form>
                         <div class="input-group mb-3">
                             <input type="text"
@@ -47,7 +47,7 @@
                         <tr>
                             <th>Nom du modèle</th>
                             <th>Marque associée</th>
-                            <th></th>
+                            <th>Logo de la marque</th>
                             <th>Cylindrée associée</th>
                             <th></th>
                             <th></th>
@@ -68,8 +68,8 @@
                                     />
                                 {% endif %}</td>
                             <td>{{ modele.cylindree.valeur }}</td>
-                            <td><a href="{{ path('modele_show', {'id': modele.id}) }}"><button class="btn btn-info">Voir le modèle</button></a></td>
-                            <td><a href="{{ path('modele_edit', {'id': modele.id}) }}"><button class="btn btn-warning">Modifier le modèle</button></a></td>
+                            <td><a href="{{ path('modele_show', {'id': modele.id}) }}" class="btn btn-info">Voir le modèle</a></td>
+                            <td><a href="{{ path('modele_edit', {'id': modele.id}) }}" class="btn btn-warning">Modifier le modèle</a></td>
                         </tr>
 
                     {% else %}

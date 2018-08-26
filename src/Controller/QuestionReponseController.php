@@ -97,7 +97,7 @@ class QuestionReponseController extends Controller
             $questionActuelle->setIdQuestionSiNon($questionReponseSiNon);
 
             //On récupère les informations du formulaire Jenesaispas pour voir si il existe
-            $JenesaispasExist = $formSubmitQuestionReponse->get('QuestionSiJenesaispas');
+            $JenesaispasExist = $formSubmitQuestionReponse->get('QuestionSiJenesaispas')->getData();
             //Si il existe on set la question si je ne sais pas
             if(!isset($JenesaispasExist))
             {
@@ -116,9 +116,10 @@ class QuestionReponseController extends Controller
 
             $this->addFlash('success', 'Les questions ont bien été ajoutées');
 
+            $id = $scenario->getId();
+
             return $this->redirectToRoute('new_question_reponse', [
-                'formSubmitQuestionReponse' => $formSubmitQuestionReponse->createView(),
-                'id' => $scenario->getId()
+                'id' => $id
             ]);
         }
 

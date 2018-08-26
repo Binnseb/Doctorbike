@@ -45,11 +45,6 @@ class Moto
      */
     private $users;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Historique", mappedBy="moto")
-     */
-    private $historiques;
-
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -122,36 +117,4 @@ class Moto
         }
         return null;
     }
-
-    /**
-     * @return Collection|Historique[]
-     */
-    public function getHistoriques(): Collection
-    {
-        return $this->historiques;
-    }
-
-    public function addHistorique(Historique $historique): self
-    {
-        if (!$this->historiques->contains($historique)) {
-            $this->historiques[] = $historique;
-            $historique->setMoto($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHistorique(Historique $historique): self
-    {
-        if ($this->historiques->contains($historique)) {
-            $this->historiques->removeElement($historique);
-            // set the owning side to null (unless already changed)
-            if ($historique->getMoto() === $this) {
-                $historique->setMoto(null);
-            }
-        }
-
-        return $this;
-    }
-
 }

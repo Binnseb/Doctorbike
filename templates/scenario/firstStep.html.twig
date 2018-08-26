@@ -18,14 +18,14 @@
                     <div class="card-body text-info">
                         <p>Construire un questionnaire valable est une chose que vous vous devez de préparer sous peine d'être très vite perdu lors de la rédaction de ce dernier. Vous risquez de vite vous perdre dans le cheminement de vos questions si vous n'avez pas d'abord posez vos idées sur papier.</p>
                         <p>Vous pouvez, pour se faire, utiliser un logiciel de création de diagramme.
-                            <a href="https://www.lucidchart.com/" target=_blank>LucidChart</a> est un outil en ligne complètement gratuit qui vous permettra de poser vos idées sur papier de façon simple !</p>
-                        <p>Cette étape est VIVEMENT recommandée avant de vous lancer dans la création d'un questionnaire. Vous pourrez également affiché votre diagramme (au format PNG ou JPEG) au dessus du formulaire de questions/réponses afin de savoir où vous en êtes dans votre questionnaire.</p>
+                        <a href="https://www.lucidchart.com/" target=_blank>LucidChart</a> est un outil en ligne complètement gratuit qui vous permettra de poser vos idées sur papier de façon simple !</p>
+                        <p>Cette étape est VIVEMENT recommandée avant de vous lancer dans la création d'un questionnaire.</p>
                         <p>Essayez de formuler votre question de manière simple et courte. Un champ 'Aide' ainsi qu'une image peuvent être completés pour fournir des explications supplémentaires à l'utilisateur si besoin est.</p>
                         <aside style="font-size: 16px; margin-bottom: 15px">Exemple d'un diagramme pouvant être réalise pour vous aider :</aside>
-                        <img class="card-img mx-auto" src="{{ app.request.basepath }}/Images/arboScenarioDemarrePas.png" style="margin-bottom: 15px">
+                        <img class="card-img mx-auto" src="{{ asset('Images/arboScenarioDemarrePas.png') }}" style="margin-bottom: 15px">
                         <p style="text-align: center">Vous voilà prévenu pour la suite ;-)</p>
                         <p style="text-align: center">Bonne rédaction et merci pour votre participation !</p>
-                        <a href="{{ path('add_scenario') }}"><button class="btn-info btn btn-block">Commencer</button></a>
+                        <a href="{{ path('add_scenario') }}" class="btn-info btn btn-block">Commencer</a>
                     </div>
                 </div>
             </div>

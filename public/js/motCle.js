@@ -1,4 +1,5 @@
-$(document).ready(function()
+
+jQuery(document).ready(function()
 {
     var $wrapper = $('.js-keyword-wrapper');
     $wrapper.on('click', '.js-remove-keyword', function(e) {
@@ -7,6 +8,7 @@ $(document).ready(function()
             .fadeOut()
             .remove();
     });
+
     $wrapper.on('click', '.js-keyword-add', function(e) {
         e.preventDefault();
         // Get the data-prototype explained earlier
@@ -22,3 +24,4 @@ $(document).ready(function()
         $(this).before(newForm);
     });
 });
+

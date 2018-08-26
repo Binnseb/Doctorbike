@@ -67,12 +67,19 @@
                                     <a href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiNon.id}) }}" class="btn btn-danger  btn-inline" style="display: block; float: left; width: 50%; margin-left: -5px;">Non</a>
                                 {% endif %}
                                 {% if questionReponse.estSolution %}
-                                    <p>Cette réponse vous a t'elle été utile ?</p><br>
-                                    <button type="submit" class="col-mb-6 btn btn-primary" style="display: block; float: left; width: 50%; margin-left: -5px;"><h4>Oui</h4></button>
-                                    <button type="submit" class="col-mb-6 btn btn-danger" style="display: block;  float: right; width: 50%; margin-left: 5px;"><h4>Non</h4></button>
+                                    <p>Cette réponse vous a t'elle été utile ?</p>
+                                    {{ form_start(formVote) }}
+
+                                    {{ form_row(formVote.VoteOui) }}
+
+                                    {{ form_row(formVote.VoteNon) }}
+
+                                    {{ form_rest(formVote) }}
+
+                                    {{ form_end(formVote) }}
                                 {% endif %}
                                 {% if questionReponse.idQuestionSiJenesaispas %}
-                                    <a><button type="submit" href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiJenesaispas.id}) }}" class="col-mb-6 btn btn-primary" style="display: block; float: left; width: 50%; margin-left: -5px;"><h4>Je ne sais pas</h4></button></a>
+                                    <a type="submit" href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiJenesaispas.id}) }}" class="col-mb-6 btn btn-primary" style="display: block; float: left; width: 50%; margin-left: -5px;">Je ne sais pas</a>
                                 {% endif %}
                             </div>
                         </div>

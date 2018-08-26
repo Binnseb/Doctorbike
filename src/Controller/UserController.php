@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UpdateUserType;
 use App\Form\RegistrationType;
 use App\Form\AdminUpdateUserType;
+use App\Repository\HistoriqueRepository;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -198,5 +199,48 @@ class UserController extends Controller
         }
 
         return $this->redirectToRoute('gestionDesUsers');
+    }
+
+    /**
+     * Méthode permettant de supprimer un historique de la liste d'un utilisateur sur base de son ID reçue en URL
+     * @Route("/delete/user-historique/{id}", name="user_delete_historique", methods="GET|DELETE")
+     * @param ObjectManager $manager
+     * @param $id
+     * @return Response
+     */
+    public function userDeleteHistorique(ObjectManager $manager, HistoriqueRepository $repo, $id): Response
+    {
+        //On récupère l'utilisateur courant
+        $user = $this->getUser();
+        //On récupère l'historique grâce à l'id de l'URL
+        $historique = $repo->findOneBy(['id' => $id]);
+        //On récupère les utilisateurs liés à cet historique
+        $historiques = $user->getHistoriques();
+        //On instancie un tableau pour stocker les IDS des historiques trouvés
+        $idsHistoriques = [];
+
+        //Pour chaque historique dans le tableau historique, on l'ajoute dans le tableau des ids
+        for($i = 0; $i < sizeof($historiques); $i++)
+        {
+            array_push($idsHistoriques, $historiques[$i]->getId());
+        }
+        //Si on trouve un historique correspondant et que l'historique existe dans la liste de l'utilisateur on la supprime
+        if($historique != null && in_array($historique->getId(), $idsHistoriques))
+        {
+            $user->removeHistorique($historique);
+
+            $manager->persist($user);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'L\'historique a bien été supprimé');
+
+            return $this->redirectToRoute('gestionDuCompte');
+        }else
+        {
+            $this->addFlash('danger', 'Une erreur est survenue');
+        }
+
+        return $this->redirectToRoute('gestionDuCompte');
     }
 }

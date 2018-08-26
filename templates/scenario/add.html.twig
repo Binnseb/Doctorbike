@@ -38,8 +38,6 @@
 
                             {{ form_row(formAddScenario.nom, {'attr': {'placeholder': "Exemple : Ma moto ne démarre pas"}}) }}
 
-
-
                             <div class="row js-keyword-wrapper"
                                  data-prototype="{{ form_widget(formAddScenario.motCle.vars.prototype)|e('html_attr') }}"
                                  data-index="{{ formAddScenario.motCle|length }}"
@@ -47,15 +45,14 @@
                                 {% for motCleType in formAddScenario.motCle %}
                                     <div class=" js-keyword-item">
                                         <a href="#" class="js-remove-keyword">
-                                            <span class="fa fa-close"></span>
+                                            <span class="fa fa-close-circle"></span>
                                         </a>
-                                        {{ form_row(formAddScenario.motCle, {'attr' : {'label' : 'Mot clé'}}) }}
                                         {{ form_row(motCleType.motCle) }}
+                                        {{ form_row(formAddScenario.motCle, {'attr' : {'label' : 'Mot clé'}}) }}
                                     </div>
                                 {% endfor %}
                                 <a href="#" class="js-keyword-add">
                                     <span class="fa fa-plus-circle"></span>
-                                    Ajouter un mot clé
                                 </a>
                             </div>
 

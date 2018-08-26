@@ -54,6 +54,11 @@ class Scenario
      */
     private $questionReponses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Historique", mappedBy="scenario", orphanRemoval=true)
+     */
+    private $historiques;
+
     public function __construct()
     {
         $this->motCle = new ArrayCollection();
@@ -181,6 +186,37 @@ class Scenario
             // set the owning side to null (unless already changed)
             if ($questionReponse->getScenario() === $this) {
                 $questionReponse->setScenario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Historique[]
+     */
+    public function getHistoriques(): Collection
+    {
+        return $this->historiques;
+    }
+
+    public function addHistorique(Historique $historique): self
+    {
+        if (!$this->historiques->contains($historique)) {
+            $this->historiques[] = $historique;
+            $historique->setScenario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistorique(Historique $historique): self
+    {
+        if ($this->historiques->contains($historique)) {
+            $this->historiques->removeElement($historique);
+            // set the owning side to null (unless already changed)
+            if ($historique->getScenario() === $this) {
+                $historique->setScenario(null);
             }
         }
 
