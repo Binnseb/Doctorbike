@@ -17,22 +17,7 @@ class ChoixQuestionType extends AbstractType
         $id = $options['id'];
 
         $builder
-            //Le champ permettant d'afficher toutes les questions existantes du scénario
-            ->add('listeDesQuestionsExistantes', EntityType::class, [
-                'class' => 'App\Entity\QuestionReponse',
-                'placeholder' => 'Sélectionnez la question pour laquelle vous désirez écrire les réponses',
-                'query_builder' => function (QuestionReponseRepository $repo) use ($id) {
-                    return $repo->createQueryBuilder('qr')
-                        ->Join('qr.scenario', 's')
-                        ->where('s.id = :sid')
-                        ->andWhere('qr.estSolution = false')
-                        ->setParameter('sid', $id)
-                        ->orderBy('qr.id', 'ASC');
-                },
-                'choice_label' => 'question',
-                'mapped' => false,
-                'label' => 'Liste des questions existantes :'
-            ])
+
             //Le champ permettant d'afficher toutes les questions qui seraient encore sans réponses
             ->add('listeDesQuestionsSansReponses', EntityType::class, [
                 'class' => 'App\Entity\QuestionReponse',
@@ -45,10 +30,45 @@ class ChoixQuestionType extends AbstractType
                         ->orderBy('qr.id', 'ASC');
                 },
                 'choice_label' => 'question',
-                'required' => false,
                 'mapped' => false,
                 'label' => 'Liste des questions sans réponses :',
-                'placeholder' => 'Veuillez ouvrir la liste pour visualiser les questions'
+                'placeholder' => 'Sélectionnez la question pour laquelle vous désirez écrire les réponses'
+            ])
+
+            //Le champ permettant de visualiser toutes les solutions existantes
+            ->add('ListeDesSolutions', EntityType::class, [
+                'class' => 'App\Entity\QuestionReponse',
+                'query_builder' => function (QuestionReponseRepository $repo) use ($id) {
+                    return $repo->createQueryBuilder('qr')
+                        ->Join('qr.scenario', 's')
+                        ->where('s.id = :sid')
+                        ->setParameter('sid', $id)
+                        ->andWhere('qr.estSolution = true')
+                        ->orderBy('qr.id', 'ASC');
+                },
+                'choice_label' => 'question',
+                'required' => false,
+                'mapped' => false,
+                'label' => 'Liste des solutions',
+                'placeholder' => 'Veuillez ouvrir la liste pour visualiser les solutions'
+            ])
+
+            //Le champ permettant d'afficher toutes les questions existantes du scénario
+            ->add('listeDesQuestionsExistantes', EntityType::class, [
+                'class' => 'App\Entity\QuestionReponse',
+                'placeholder' => 'Veuillez ouvrir la liste pour visualiser les questions',
+                'query_builder' => function (QuestionReponseRepository $repo) use ($id) {
+                    return $repo->createQueryBuilder('qr')
+                        ->Join('qr.scenario', 's')
+                        ->where('s.id = :sid')
+                        ->andWhere('qr.estSolution = false')
+                        ->setParameter('sid', $id)
+                        ->orderBy('qr.id', 'ASC');
+                },
+                'choice_label' => 'question',
+                'mapped' => false,
+                'label' => 'Liste des questions existantes :',
+                'required' => false,
             ])
         ;
     }

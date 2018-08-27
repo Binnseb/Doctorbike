@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Historique;
 use App\Entity\QuestionReponse;
 use App\Entity\Scenario;
+use App\Form\VoteNonType;
+use App\Form\VoteOuiType;
 use App\Form\VoteType;
 use App\Repository\MotCleRepository;
 use App\Repository\QuestionReponseRepository;
@@ -33,6 +35,8 @@ class ScenarioController extends Controller
      */
     public function index(ScenarioRepository $scenarioRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $user = $this->getUser();
+
         //q représente le texte inséré dans la barre de recherche du formulaire
         $q = $request->query->get('q');
         $queryBuilder = $scenarioRepository->getWithSearchQueryBuilder($q);
@@ -43,7 +47,10 @@ class ScenarioController extends Controller
             10
         );
 
-        return $this->render('scenario/index.html.twig', ['pagination' => $pagination]);
+        return $this->render('scenario/index.html.twig', [
+            'pagination' => $pagination,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -123,7 +130,7 @@ class ScenarioController extends Controller
     }
 
     /**
-     * Méthode pour jouer un scénario sur base de son id et de l'id de la question
+     * Méthode pour jouer un scénario sur base de son id et de l'id de la question (contient aussi le vote positif ou négatif)
      * @Route("/play/{id}/{id_question}", name="scenario_play")
      * @ParamConverter("questionReponse", class="App\Entity\QuestionReponse", options={"id" = "id_question"})
      * @param Scenario $scenario
@@ -136,41 +143,50 @@ class ScenarioController extends Controller
 
         $historique = new Historique();
 
-        $formVote = $this->createForm(VoteType::class, $historique, ['id' => $user->getId()]);
+        $formVoteOui = $this->createForm(VoteOuiType::class, $historique, ['id' => $user->getId()]);
+        $formVoteNon = $this->createForm(VoteNonType::class, $historique, ['id' => $user->getId()]);
 
-        $formVote->handleRequest($request);
+        $formVoteOui->handleRequest($request);
+        $formVoteNon->handleRequest($request);
 
-        if ($formVote->isSubmitted() && $formVote->isValid())
+        if($formVoteOui->isSubmitted() && $formVoteOui->isValid())
         {
-
-            if($formVote->get('VoteOui')->isSubmitted() && $formVote->get('VoteOui')->isValid())
-            {
-                $historique->setScenario($scenario);
-                $historique->setSolution($questionReponse);
-                $historique->setUser($user);
-                $historique->setVoteReponse(true);
-
-            }
-            else if($formVote->get('VoteNon')->isSubmitted() && $formVote->get('VoteNon')->isValid())
-            {
-                $historique->setScenario($scenario);
-                $historique->setSolution($questionReponse);
-                $historique->setUser($user);
-                $historique->setVoteReponse(false);
-            }
+            $historique->setScenario($scenario);
+            $historique->setSolution($questionReponse);
+            $historique->setUser($user);
+            $historique->setMoto($user->getMotoActive());
+            $historique->setVoteReponse(true);
 
             $manager->persist($historique);
-
             $manager->flush();
 
             $this->addFlash('success', 'Votre vote a bien été enregistré');
 
             return $this->redirectToRoute('scenario_list');
         }
+
+        if($formVoteNon->isSubmitted() && $formVoteNon->isValid())
+        {
+            $historique->setScenario($scenario);
+            $historique->setSolution($questionReponse);
+            $historique->setUser($user);
+            $historique->setMoto($user->getMotoActive());
+            $historique->setVoteReponse(false);
+
+            $manager->persist($historique);
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre vote a bien été enregistré');
+
+            return $this->redirectToRoute('scenario_list');
+        }
+
         return $this->render('scenario/play.html.twig', [
             'scenario' => $scenario,
             'questionReponse' => $questionReponse,
-            'formVote' => $formVote->createView()
+            'formVoteOui' => $formVoteOui->createView(),
+            'formVoteNon' => $formVoteNon->createView(),
+            'user' => $user
             ]);
     }
 
@@ -211,8 +227,7 @@ class ScenarioController extends Controller
 
             foreach ($motCles as $element)
             {
-                $em->remove($scenario->removeMotCle($element));
-                $em->remove($element);
+                $scenario->removeMotCle($element);
             }
 
             $em->flush();

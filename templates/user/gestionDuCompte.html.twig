@@ -15,8 +15,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="jumbotron jumbotron-fluid">
+                <div class="jumbotron jumbotron-fluid text-center">
                     <h1>Bienvenue {{ user.username }}</h1>
+                    {% if user.motoActive %}
+                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Moto active : {{ user.motoActive.modele.marque }} {{ user.motoActive.modele }} {{ user.motoActive.modele.cylindree.valeur }} {{ user.motoActive.annee }}</span>
+                    {% else %}
+                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Aucune moto active (elle ne sera donc pas disponible dans votre historique)</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -124,6 +129,7 @@
                                                 <th>Modele</th>
                                                 <th>Cylindrée</th>
                                                 <th>Année</th>
+                                                <th>Activer</th>
                                                 <th>Supprimer</th>
                                             </tr>
                                         </thead>
@@ -146,8 +152,15 @@
                                                 <td>{{ moto.Modele.Nom }}</td>
                                                 <td>{{ moto.Modele.Cylindree.Valeur }}</td>
                                                 <td>{{ moto.Annee }}</td>
+                                                {% if user.motoActive == moto %}
+                                                    <td>Moto active</td>
+                                                {% else %}
                                                 <td>
-                                                    <a href="{{ path('user_delete_moto', {'id': moto.id}) }}"><button type="button" class="btn btn-pill btn-md btn-danger">X</button></a>
+                                                    <a href="{{ path('user_active_moto', {'id': moto.id}) }}" type="button" class="btn btn-pill btn-md btn-info">Activer</a>
+                                                </td>
+                                                {% endif %}
+                                                <td>
+                                                    <a href="{{ path('user_delete_moto', {'id': moto.id}) }}" type="button" class="btn btn-pill btn-md btn-danger">X</a>
                                                 </td>
                                             </tr>
                                             {% else %}
@@ -207,11 +220,16 @@
                                                 <td>{{ historique.user.username }}</td>
                                                 <td>{{ historique.scenario.nom }}</td>
                                                 <td>{{ historique.solution.question }}</td>
-                                                <td></td>
+                                                <td>
+                                                    {{ historique.moto.modele.marque }}
+                                                    {{ historique.moto.modele }}
+                                                    {{ historique.moto.modele.cylindree.Valeur }}
+                                                    {{ historique.moto.annee }}
+                                                </td>
                                                 {% if historique.voteReponse == true %}
-                                                    <td>Positif</td>
+                                                    <td style="color: green; font-weight: bold">Positif</td>
                                                 {% else %}
-                                                    <td>Négatif</td>
+                                                    <td style="color: red; font-weight: bold">Négatif</td>
                                                 {% endif %}
                                                 <td>
                                                     <a href="{{ path('user_delete_historique', {'id': historique.id}) }}"><button type="button" class="btn btn-pill btn-md btn-danger">X</button></a>
@@ -234,7 +252,6 @@
         </div>
 
         <br>
-
         {# Gestion des scénarios de l'utilisateur #}
         {% if is_granted('ROLE_MODERATEUR') %}
         <div class="row">
@@ -274,7 +291,7 @@
                                                         {{ scenario.nom }}
                                                     </td>
                                                     <td>
-                                                        Non disponible pour le moment
+                                                        {{ scenario.historiques.count }}
                                                     </td>
                                                     <td>
                                                         <div class="clearfix">

@@ -4,12 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Modele;
 use App\Entity\Moto;
-use App\Repository\ModeleRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Form\MotoType;
 use App\Repository\MotoRepository;
 use Knp\Component\Pager\PaginatorInterface;
-use PhpParser\Node\Expr\AssignOp\Mod;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -109,6 +107,7 @@ class MotoController extends Controller
             if(!$user->checkIfUserMotoExists($moto))
             {
                 $user->addMoto($moto);
+                $user->setMotoActive($moto);
                 $manager->persist($user);
                 $this->addFlash('success', 'La moto a bien été ajoutée à votre profil');
             }

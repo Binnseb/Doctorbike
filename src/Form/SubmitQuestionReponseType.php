@@ -23,22 +23,23 @@ class SubmitQuestionReponseType extends AbstractType
 
             ->add('QuestionSiOui', QuestionReponseType::class, [
                 'id' => $id,
-                'mapped' => false
+                'mapped' => false,
+                'required' => true
             ])
 
             ->add('QuestionSiNon', QuestionReponseType::class, [
                 'id' => $id,
-                'mapped' => false
-            ])
-            ->add('QuestionSiJenesaispas', QuestionReponseType::class, [
-                'id' => $id,
-                'required' => false,
-                'mapped' => false
+                'mapped' => false,
+                'required' => true
             ])
 
             ->add('Suivant', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary btn-block']
-            ]);
+                'attr' => ['class' => 'btn btn-primary btn-pill btn-block']
+            ])
+
+            ->add('Terminer', SubmitType::class, [
+            'attr' => ['class' => 'btn btn-success btn-pill btn-block']
+    ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

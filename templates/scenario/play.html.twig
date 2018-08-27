@@ -8,7 +8,11 @@
             <div class="col-sm-12">
                 <div class="jumbotron jumbotron-fluid text-center">
                     <h1>Scénario : {{ scenario.nom }}</h1>
-                    <p>Moto actuelle : </p>
+                    {% if user.motoActive %}
+                    <span style="font-size: 25px; font-weight: bold; color: darkorange">Moto active : {{ user.motoActive.modele.marque }} {{ user.motoActive.modele }} {{ user.motoActive.modele.cylindree.valeur }} {{ user.motoActive.annee }}</span>
+                    {% else %}
+                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Aucune moto active (elle ne sera donc pas disponible dans votre historique)</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -27,16 +31,16 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-12" id="playQR">
-                                {{ questionReponse.question }}
+                            <div class="col-sm-12">
+                                <p id="playQR">{{ questionReponse.question }}</p>
                             </div>
                         </div>
                         <hr>
                         {% if questionReponse.aide %}
                         <div class="row">
-                            <div class="col-sm-12" style="margin-top: 10px" id="playQR">
+                            <div class="col-sm-12" style="margin-top: 10px" >
                                 <h4 class="text-primary">Aide :</h4>
-                                {{ questionReponse.aide }}
+                                <p id="playQR">{{ questionReponse.aide }}</p>
                             </div>
                         </div>
                         <hr>
@@ -67,19 +71,22 @@
                                     <a href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiNon.id}) }}" class="btn btn-danger  btn-inline" style="display: block; float: left; width: 50%; margin-left: -5px;">Non</a>
                                 {% endif %}
                                 {% if questionReponse.estSolution %}
-                                    <p>Cette réponse vous a t'elle été utile ?</p>
-                                    {{ form_start(formVote) }}
+                                    <p id="playQR">Cette réponse vous a t'elle été utile ?</p>
+                                    {{ form_start(formVoteOui) }}
 
-                                    {{ form_row(formVote.VoteOui) }}
+                                    {{ form_row(formVoteOui.VoteOui) }}
 
-                                    {{ form_row(formVote.VoteNon) }}
+                                    {{ form_rest(formVoteOui) }}
 
-                                    {{ form_rest(formVote) }}
+                                    {{ form_end(formVoteOui) }}
 
-                                    {{ form_end(formVote) }}
-                                {% endif %}
-                                {% if questionReponse.idQuestionSiJenesaispas %}
-                                    <a type="submit" href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiJenesaispas.id}) }}" class="col-mb-6 btn btn-primary" style="display: block; float: left; width: 50%; margin-left: -5px;">Je ne sais pas</a>
+                                    {{ form_start(formVoteNon) }}
+
+                                    {{ form_row(formVoteNon.VoteNon) }}
+
+                                    {{ form_rest(formVoteNon) }}
+
+                                    {{ form_end(formVoteNon) }}
                                 {% endif %}
                             </div>
                         </div>

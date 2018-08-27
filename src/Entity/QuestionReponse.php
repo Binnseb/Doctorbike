@@ -63,12 +63,6 @@ class QuestionReponse
      */
     private $idQuestionSiNon;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\QuestionReponse", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\JoinColumn(onDelete="SET NULL")
-     */
-    private $idQuestionSiJenesaispas;
-
     public function getId()
     {
         return $this->id;
@@ -166,18 +160,6 @@ class QuestionReponse
     public function setIdQuestionSiNon(self $idQuestionSiNon): self
     {
         $this->idQuestionSiNon = $idQuestionSiNon;
-
-        return $this;
-    }
-
-    public function getIdQuestionSiJenesaispas(): ?self
-    {
-        return $this->idQuestionSiJenesaispas;
-    }
-
-    public function setIdQuestionSiJenesaispas(?self $idQuestionSiJenesaispas): self
-    {
-        $this->idQuestionSiJenesaispas = $idQuestionSiJenesaispas;
 
         return $this;
     }

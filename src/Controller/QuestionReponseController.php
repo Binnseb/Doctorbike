@@ -61,7 +61,6 @@ class QuestionReponseController extends Controller
         //On instancie nos trois instance pour gérer l'ajout des question réponses (Oui/Non/Jenesaispas)
         $questionReponseSiOui = new QuestionReponse();
         $questionReponseSiNon = new QuestionReponse();
-        $questionReponseSiJenesaispas = new QuestionReponse();
 
         //On indique que le formulaire doit récupérer la requête
         $formSubmitQuestionReponse->handleRequest($request);
@@ -69,47 +68,46 @@ class QuestionReponseController extends Controller
         //Si le formulaire principal est soumis et qu'il est valide (ensemble des 3 formulaires également)
         if($formSubmitQuestionReponse->isSubmitted() && $formSubmitQuestionReponse->isValid())
         {
-            $questionAnterieurOui = $formSubmitQuestionReponse->get('QuestionSiOui')->get('choixNouvelleRepOuQuestionAnt');
-            $questionAnterieurNon = $formSubmitQuestionReponse->get('QuestionSiNon')->get('choixNouvelleRepOuQuestionAnt');
-            $questionAnterieurJenesaispas = $formSubmitQuestionReponse->get('QuestionSiJenesaispas')->get('choixNouvelleRepOuQuestionAnt');
+            $questionAnterieurOui = $formSubmitQuestionReponse->get('QuestionSiOui')->get('choixNouvelleRepOuQuestionAnt')->getData();
+            $questionAnterieurNon = $formSubmitQuestionReponse->get('QuestionSiNon')->get('choixNouvelleRepOuQuestionAnt')->getData();
 
             //On affecte la question choisie dans le formulaire à une variable
-            $questionActuelle = $formSubmitQuestionReponse->get('ChoixQuestion')->get('listeDesQuestionsExistantes')->getData();
+            $questionActuelle = $formSubmitQuestionReponse->get('ChoixQuestion')->get('listeDesQuestionsSansReponses')->getData();
 
-            //On set la question pour la réponse oui
-            $questionReponseSiOui->setQuestion($formSubmitQuestionReponse->get('QuestionSiOui')->get('question')->getData());
-            $questionReponseSiOui->setAide($formSubmitQuestionReponse->get('QuestionSiOui')->get('aide')->getData());
-            $questionReponseSiOui->setImage($formSubmitQuestionReponse->get('QuestionSiOui')->get('image')->getData());
-            $questionReponseSiOui->setEstSolution($formSubmitQuestionReponse->get('QuestionSiOui')->get('estSolution')->getData());
-            $questionReponseSiOui->setScenario($scenario);
-            $questionReponseSiOui->setEstPremiereQuestion(false);
-            $manager->persist($questionReponseSiOui);
-            $questionActuelle->setIdQuestionSiOui($questionReponseSiOui);
-
-            //On set la question pour la réponse non
-            $questionReponseSiNon->setQuestion($formSubmitQuestionReponse->get('QuestionSiNon')->get('question')->getData());
-            $questionReponseSiNon->setAide($formSubmitQuestionReponse->get('QuestionSiNon')->get('aide')->getData());
-            $questionReponseSiNon->setImage($formSubmitQuestionReponse->get('QuestionSiNon')->get('image')->getData());
-            $questionReponseSiNon->setEstSolution($formSubmitQuestionReponse->get('QuestionSiNon')->get('estSolution')->getData());
-            $questionReponseSiNon->setScenario($scenario);
-            $questionReponseSiNon->setEstPremiereQuestion(false);
-            $manager->persist($questionReponseSiNon);
-            $questionActuelle->setIdQuestionSiNon($questionReponseSiNon);
-
-            //On récupère les informations du formulaire Jenesaispas pour voir si il existe
-            $JenesaispasExist = $formSubmitQuestionReponse->get('QuestionSiJenesaispas')->getData();
-            //Si il existe on set la question si je ne sais pas
-            if(!isset($JenesaispasExist))
+            if($questionAnterieurOui)
             {
-                $questionReponseSiJenesaispas->setQuestion($JenesaispasExist->get('question')->getData());
-                $questionReponseSiJenesaispas->setAide($JenesaispasExist->get('aide')->getData());
-                $questionReponseSiJenesaispas->setImage($JenesaispasExist->get('image')->getData());
-                $questionReponseSiJenesaispas->setEstSolution($JenesaispasExist->get('estSolution')->getData());
-                $questionReponseSiJenesaispas->setScenario($scenario);
-                $questionReponseSiJenesaispas->setEstPremiereQuestion(false);
-                $manager->persist($questionReponseSiJenesaispas);
-                $questionActuelle->setIdQuestionSiJenesaispas($questionReponseSiJenesaispas);
+                $questionActuelle->setIdQuestionSiOui($questionAnterieurOui);
             }
+            else
+                {
+                    //On set la question pour la réponse oui
+                    $questionReponseSiOui->setQuestion($formSubmitQuestionReponse->get('QuestionSiOui')->get('question')->getData());
+                    $questionReponseSiOui->setAide($formSubmitQuestionReponse->get('QuestionSiOui')->get('aide')->getData());
+                    $questionReponseSiOui->setImage($formSubmitQuestionReponse->get('QuestionSiOui')->get('image')->getData());
+                    $questionReponseSiOui->setEstSolution($formSubmitQuestionReponse->get('QuestionSiOui')->get('estSolution')->getData());
+                    $questionReponseSiOui->setScenario($scenario);
+                    $questionReponseSiOui->setEstPremiereQuestion(false);
+                    $manager->persist($questionReponseSiOui);
+                    $questionActuelle->setIdQuestionSiOui($questionReponseSiOui);
+                }
+
+            if($questionAnterieurNon)
+            {
+                $questionActuelle->setIdQuestionSiNon($questionAnterieurNon);
+            }
+            else
+                {
+                    //On set la question pour la réponse non
+                    $questionReponseSiNon->setQuestion($formSubmitQuestionReponse->get('QuestionSiNon')->get('question')->getData());
+                    $questionReponseSiNon->setAide($formSubmitQuestionReponse->get('QuestionSiNon')->get('aide')->getData());
+                    $questionReponseSiNon->setImage($formSubmitQuestionReponse->get('QuestionSiNon')->get('image')->getData());
+                    $questionReponseSiNon->setEstSolution($formSubmitQuestionReponse->get('QuestionSiNon')->get('estSolution')->getData());
+                    $questionReponseSiNon->setScenario($scenario);
+                    $questionReponseSiNon->setEstPremiereQuestion(false);
+                    $manager->persist($questionReponseSiNon);
+                    $questionActuelle->setIdQuestionSiNon($questionReponseSiNon);
+                }
+
             //On fait persister nos entités et on les sauvegarde en DB
             $manager->persist($questionActuelle);
             $manager->flush();
@@ -117,6 +115,11 @@ class QuestionReponseController extends Controller
             $this->addFlash('success', 'Les questions ont bien été ajoutées');
 
             $id = $scenario->getId();
+
+            if($formSubmitQuestionReponse->getClickedButton() && 'Terminer' == $formSubmitQuestionReponse->getClickedButton()->getName())
+            {
+                return $this->redirectToRoute('scenario_list');
+            }
 
             return $this->redirectToRoute('new_question_reponse', [
                 'id' => $id

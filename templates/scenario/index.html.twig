@@ -16,6 +16,11 @@
                 <div class="col-md-12 text-center">
                     <div class="jumbotron jumbotron-fluid">
                         <h1>Liste de tous les scénarios</h1>
+                        {% if user.motoActive %}
+                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Moto active : {{ user.motoActive.modele.marque }} {{ user.motoActive.modele }} {{ user.motoActive.modele.cylindree.valeur }} {{ user.motoActive.annee }}</span>
+                        {% else %}
+                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Aucune moto active (elle ne sera donc pas disponible dans votre historique)</span>
+                        {% endif %}
                     </div>
                 </div>
             </div>

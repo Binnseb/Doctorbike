@@ -36,6 +36,11 @@ class Historique
     private $solution;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Moto")
+     */
+    private $moto;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $voteReponse;
@@ -89,6 +94,18 @@ class Historique
     public function setVoteReponse(bool $voteReponse): self
     {
         $this->voteReponse = $voteReponse;
+
+        return $this;
+    }
+
+    public function getMoto(): ?Moto
+    {
+        return $this->moto;
+    }
+
+    public function setMoto(?Moto $moto): self
+    {
+        $this->moto = $moto;
 
         return $this;
     }

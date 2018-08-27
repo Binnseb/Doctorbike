@@ -50,7 +50,6 @@
                             <th style="vertical-align: middle">Image</th>
                             <th style="vertical-align: middle">ID si oui</th>
                             <th style="vertical-align: middle">ID si non</th>
-                            <th style="vertical-align: middle">ID si Jnsp</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -84,12 +83,6 @@
 
                                 {% if questionReponse.idQuestionSiNon %}
                                     <td>{{ questionReponse.idQuestionSiNon.id }}</td>
-                                {% else %}
-                                    <td>Aucune</td>
-                                {% endif %}
-
-                                {% if questionReponse.idQuestionSiJenesaispas %}
-                                    <td>{{ questionReponse.idQuestionSiJenesaispas.id }}</td>
                                 {% else %}
                                     <td>Aucune</td>
                                 {% endif %}

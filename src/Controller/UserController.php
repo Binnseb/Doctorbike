@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\MotoActiveType;
 use App\Form\UpdateUserType;
 use App\Form\RegistrationType;
+use App\Repository\MotoRepository;
 use App\Form\AdminUpdateUserType;
 use App\Repository\HistoriqueRepository;
 use App\Repository\UserRepository;
@@ -234,6 +236,51 @@ class UserController extends Controller
             $manager->flush();
 
             $this->addFlash('success', 'L\'historique a bien été supprimé');
+
+            return $this->redirectToRoute('gestionDuCompte');
+        }else
+        {
+            $this->addFlash('danger', 'Une erreur est survenue');
+        }
+
+        return $this->redirectToRoute('gestionDuCompte');
+    }
+
+    /**
+     * @Route("/active-moto/{id}", name="user_active_moto", methods="GET|DELETE")
+     * @param ObjectManager $manager
+     * @param MotoRepository $repo
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function userActiveMoto(ObjectManager $manager, MotoRepository $repo, $id)
+    {
+        $user = $this->getUser();
+
+        //On récupère la moto grâce à l'id de l'URL
+        $moto = $repo->findOneBy(['id' => $id]);
+
+        //On récupère les utilisateurs liés à cette moto
+        $motos = $user->getMotos();
+
+        //On instancie un tableau pour stocker les IDS des motos trouvées
+        $idsMoto = [];
+
+        //Pour chaque moto dans le tableau moto, on l'ajoute dans le tableau des ids
+        for($i = 0; $i < sizeof($motos); $i++)
+        {
+            array_push($idsMoto, $motos[$i]->getId());
+        }
+        //Si on trouve une moto correspondante et que la moto existe dans la liste de l'utilisateur on la supprime
+        if($moto != null && in_array($moto->getId(), $idsMoto))
+        {
+            $user->setMotoActive($moto);
+
+            $manager->persist($user);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'La moto a bien été activée');
 
             return $this->redirectToRoute('gestionDuCompte');
         }else

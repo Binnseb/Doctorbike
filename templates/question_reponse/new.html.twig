@@ -19,7 +19,7 @@
                     <h1>Ajouter les questions/réponses du scénario</h1>
                     <p>La première liste vous permet de cibler la question pour laquelle vous allez écrire les réponses.<br>
                     La seconde vous permets de voir les questions qui n'ont pas encore de réponses.<br>
-                    La liste déroulante disponible dans chaque formulaire de réponse (Oui/Non/Je ne sais pas) vous permets de définir si la réponse est une nouvelle question (par défaut)
+                    La liste déroulante disponible dans chaque formulaire de réponse (Oui/Non) vous permets de définir si la réponse est une nouvelle question (par défaut)
                     ou de préciser si la réponse repointe vers une question antérieur dans votre questionnaire.
                     </p>
                 </div>
@@ -50,13 +50,11 @@
 
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="card bg-dark border-primary">
                                     <div class="card-header">
                                         <h4 style="text-align: center">Réponse si oui</h4>
-
                                         {{ form_row(formSubmitQuestionReponse.QuestionSiOui.choixNouvelleRepOuQuestionAnt) }}
-
                                     </div>
 
                                     <div class="card-body">
@@ -78,7 +76,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                                 <div class="card bg-dark border-primary">
                                     <div class="card-header">
                                         <h4 style="text-align: center">Réponse si non</h4>
@@ -102,35 +100,13 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-sm-4">
-                                <div class="card bg-dark border-primary">
-                                    <div class="card-header">
-                                        <h4 style="text-align: center">Réponse si je ne sais pas</h4>
-                                        {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.choixNouvelleRepOuQuestionAnt) }}
-                                    </div>
-
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.estSolution) }}
-
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.question) }}
-
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.aide) }}
-
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiJenesaispas.image) }}
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     {{ form_row(formSubmitQuestionReponse.Suivant) }}
+
+                    {{ form_row(formSubmitQuestionReponse.Terminer) }}
+
+                    <br>
 
                     {{ form_rest(formSubmitQuestionReponse) }}
 

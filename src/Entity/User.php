@@ -102,6 +102,11 @@ class User implements UserInterface, \Serializable
      */
     private $historiques;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Moto", cascade={"persist", "remove"})
+     */
+    private $motoActive;
+
 
     public function __construct()
     {
@@ -379,6 +384,18 @@ class User implements UserInterface, \Serializable
                 $historique->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMotoActive(): ?Moto
+    {
+        return $this->motoActive;
+    }
+
+    public function setMotoActive(?Moto $motoActive): self
+    {
+        $this->motoActive = $motoActive;
 
         return $this;
     }

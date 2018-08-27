@@ -45,7 +45,7 @@ class Scenario
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\MotCle", inversedBy="scenarios", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="App\Entity\MotCle", inversedBy="scenarios", orphanRemoval=true, cascade={"persist"})
      */
     private $motCle;
 
