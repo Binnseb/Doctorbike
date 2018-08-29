@@ -9,9 +9,9 @@
                 <div class="jumbotron jumbotron-fluid text-center">
                     <h1>Scénario : {{ scenario.nom }}</h1>
                     {% if user.motoActive %}
-                    <span style="font-size: 25px; font-weight: bold; color: darkorange">Moto active : {{ user.motoActive.modele.marque }} {{ user.motoActive.modele }} {{ user.motoActive.modele.cylindree.valeur }} {{ user.motoActive.annee }}</span>
+                        <span style="font-size: 30px; font-weight: bold; color: darkorange">Moto active : {{ user.motoActive.modele.marque }} {{ user.motoActive.modele }} {{ user.motoActive.modele.cylindree.valeur }} {{ user.motoActive.annee }}<br>
                     {% else %}
-                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Aucune moto active (elle ne sera donc pas disponible dans votre historique)</span>
+                        <span style="font-size: 30px; font-weight: bold; color: darkorange">Aucune moto active (elle ne sera donc pas disponible dans votre historique).<br>
                     {% endif %}
                 </div>
             </div>
@@ -43,7 +43,7 @@
                                 <p id="playQR">{{ questionReponse.aide }}</p>
                             </div>
                         </div>
-                        <hr>
+                        <hr style="color: black; size: 10px;">
                         {% endif %}
                         {% if questionReponse.image %}
                         <div class="row">
@@ -70,24 +70,48 @@
                                 {% if questionReponse.idQuestionSiNon %}
                                     <a href="{{ path('scenario_play', {'id': scenario.id,'id_question': questionReponse.idQuestionSiNon.id}) }}" class="btn btn-danger  btn-inline" style="display: block; float: left; width: 50%; margin-left: -5px;">Non</a>
                                 {% endif %}
-                                {% if questionReponse.estSolution %}
-                                    <p id="playQR">Cette réponse vous a t'elle été utile ?</p>
-                                    {{ form_start(formVoteOui) }}
+                                {% block solution %}
+                                    {% if questionReponse.estSolution %}
+                                        {% if user.id != scenario.user.id %}
 
-                                    {{ form_row(formVoteOui.VoteOui) }}
+                                            {% set VoteForSolution = user.getVoteForSolution(questionReponse.id) %}
 
-                                    {{ form_rest(formVoteOui) }}
+                                            <p id="playQR">Cette réponse vous a t'elle été utile ?</p>
 
-                                    {{ form_end(formVoteOui) }}
+                                            {% if VoteForSolution is null or VoteForSolution == false %}
 
-                                    {{ form_start(formVoteNon) }}
+                                                {{ form_start(formVoteOui) }}
 
-                                    {{ form_row(formVoteNon.VoteNon) }}
+                                                {{ form_row(formVoteOui.VoteOui) }}
 
-                                    {{ form_rest(formVoteNon) }}
+                                                {{ form_rest(formVoteOui) }}
 
-                                    {{ form_end(formVoteNon) }}
-                                {% endif %}
+                                                {{ form_end(formVoteOui) }}
+                                            {% else %}
+                                                <button class="btn btn-success btn-pill col-sm-4 disabled" style="display: block; float: left;  width: 50%;">Oui</button>
+                                            {% endif %}
+
+                                            {% if VoteForSolution is null or VoteForSolution == true %}
+
+                                                {{ form_start(formVoteNon) }}
+
+                                                {{ form_row(formVoteNon.VoteNon) }}
+
+                                                {{ form_rest(formVoteNon) }}
+
+                                                {{ form_end(formVoteNon) }}
+                                            {% else %}
+                                                <button class="btn btn-danger btn-pill col-sm-4 disabled" style="display: block; float: right;  width: 50%;">Non</button>
+                                            {% endif %}
+
+                                        {% else %}
+
+                                            <a href="{{ path('scenario_list') }}" class="btn btn-block btn-info btn-pill">Revenir aux scénarios</a>
+
+                                        {% endif %}
+
+                                    {% endif %}
+                                {% endblock %}
                             </div>
                         </div>
                     </div>

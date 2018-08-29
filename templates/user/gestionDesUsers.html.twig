@@ -44,12 +44,14 @@
                 <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
-                        <th>Avatar</th>
-                        <th>Pseudo</th>
-                        <th>Mail</th>
-                        <th>Rôle</th>
-                        <th></th>
-                        <th></th>
+                        <th style="vertical-align: middle;">Avatar</th>
+                        <th style="vertical-align: middle;">Pseudo</th>
+                        <th style="vertical-align: middle;">Mail</th>
+                        <th style="vertical-align: middle;">Rôle</th>
+                        <th style="vertical-align: middle;">Scénario créé</th>
+                        <th style="vertical-align: middle;">Incrit depuis</th>
+                        <th style="vertical-align: middle;"></th>
+                        <th style="vertical-align: middle;"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -65,14 +67,20 @@
                                         class="img-responsive img-circle"
                                 />
                             </td>
-                                {% else %}
+                            {% else %}
                                 <td>Aucun avatar</td>
                             {% endif %}
+
                             <td>{{ user.username }}</td>
                             <td>{{ user.email }}</td>
+
                             {% for role in user.roles %}
-                            <td>{{ role }}</td>
+                                <td>{{ role }}</td>
                             {% endfor %}
+
+                            <td>{{ user.scenarios.count }}</td>
+
+                            <td>{{ user.confirmedAt|date("d/m/Y") }}</td>
                             <td>
                                 <a href="{{ path('gestionDesUsersUpdate', {'id': user.id}) }}"><button class="btn btn-warning">Modifier l'utilisateur</button></a>
                             </td>

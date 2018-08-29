@@ -7,8 +7,10 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <div class="jumbotron jumbotron-fluid">
-                        <h1>Scenario sélectionnée : </h1>
-                        <p>{{ scenario.nom }}</p>
+                        <h1>
+                            Scénario: <br>
+                            {{ scenario.nom }}
+                        </h1>
                     </div>
                 </div>
             </div>
@@ -20,17 +22,58 @@
                         <th>Auteur</th>
                         <th>Nom</th>
                         <th>Nombre de questions</th>
+                        <th>Nombre de votes</th>
                         <th>Taux de satisfaction</th>
-                        <th></th>
+                        <th>Créé le</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
 
                     <tbody>
                     <tr>
-                        <td>{{ scenario.user.username }}</td>
+                        <td>
+                            {{ scenario.user.username }}
+                            <br>
+                            {% if scenario.user.image %}
+                            <img
+                                    src="{{ asset(scenario.user.image.webPath) }}"
+                                    alt="{{ scenario.user.image.alt }}"
+                                    width="60px"
+                                    height="60px"
+                                    class="img-responsive img-circle"
+                            />
+                            {% else %}
+                        {% endif %}
+                        </td>
                         <td>{{ scenario.nom }}</td>
-                        <th style="text-align: center; vertical-align: middle">{{ scenario.questionReponses.count }}</th>
-                        <th></th>
+                        <td style="text-align: center; vertical-align: middle">{{ scenario.questionReponses.count }}</td>
+                        <td>{{ scenario.historiques.count }}</td>
+                        {% if scenario.historiques.count > 0 %} }
+                            <td>
+                                <div class="clearfix">
+                                    <div class="float-center">
+                                        <strong>{{ scenario.satisfactionPourcentage }}%</strong>
+                                    </div>
+                                </div>
+                                <div class="progress progress-xs ">
+                                    <div
+                                            {% if scenario.satisfactionPourcentage <= 35 %} class = "progress-bar-striped progress-bar-danger"
+                                            {% elseif  scenario.satisfactionPourcentage >= 75%} class = "progress-bar-striped progress-bar-success"
+                                            {% else %}
+                                                class = "progress-bar-striped progress-bar-warning"
+                                            {% endif %}
+                                            role="progressbar"
+                                            style="width:100%"
+                                            aria-valuenow="{{ scenario.satisfactionPourcentage }}"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </td>
+                        {% else %}
+                            <td>Aucun vote</td>
+                        {% endif %}
+                        <td style="text-align: center; vertical-align: middle">{{ scenario.createdAt|date("d/m/Y") }}</td>
                         <td>{{ include('scenario/_delete_form.html.twig') }}</td>
                     </tr>
                     </tbody>

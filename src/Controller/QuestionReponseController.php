@@ -42,7 +42,11 @@ class QuestionReponseController extends Controller
             10
         );
 
-        return $this->render('question_reponse/index.html.twig', ['pagination' => $pagination]);
+        return $this->render('question_reponse/index.html.twig',
+            [
+                'pagination' => $pagination,
+                'scenario' => $scenario
+            ]);
     }
 
     /**

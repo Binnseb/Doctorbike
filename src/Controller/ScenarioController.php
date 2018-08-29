@@ -8,6 +8,7 @@ use App\Entity\Scenario;
 use App\Form\VoteNonType;
 use App\Form\VoteOuiType;
 use App\Form\VoteType;
+use App\Repository\HistoriqueRepository;
 use App\Repository\MotCleRepository;
 use App\Repository\QuestionReponseRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -137,7 +138,7 @@ class ScenarioController extends Controller
      * @param QuestionReponse $questionReponse
      * @return Response
      */
-    public function playScenario(Scenario $scenario, QuestionReponse $questionReponse, Request $request, ObjectManager $manager)
+    public function playScenario(Scenario $scenario, QuestionReponse $questionReponse, Request $request, ObjectManager $manager, HistoriqueRepository $historiqueRepository)
     {
         $user = $this->getUser();
 
@@ -149,31 +150,53 @@ class ScenarioController extends Controller
         $formVoteOui->handleRequest($request);
         $formVoteNon->handleRequest($request);
 
-        if($formVoteOui->isSubmitted() && $formVoteOui->isValid())
+        //On vérifie si l'utilisateur à déjà voté pour cette solution avec la combinaison User/Moto/Scénario/Solution
+        $voteExist = $historiqueRepository->findVoteByUserMotoScenarioSolution($user, $user->getMotoActive(), $scenario, $questionReponse);
+        //Si il existe un vote on indique à Symfony de sélectionner la première occurence trouvée dans le tableau
+        if(sizeof($voteExist) > 0)
+            $voteExist = $voteExist[0];
+        // Si l'utilisateur submit oui ou non
+        if(
+            ($formVoteOui->isSubmitted() && $formVoteOui->isValid()) || // oui
+            ($formVoteNon->isSubmitted() && $formVoteNon->isValid()) // non
+        )
         {
-            $historique->setScenario($scenario);
-            $historique->setSolution($questionReponse);
-            $historique->setUser($user);
-            $historique->setMoto($user->getMotoActive());
-            $historique->setVoteReponse(true);
+            //Si un vote existe déjà
+            if ($voteExist != null)
+            {
+                //On vérifie si le formulaire oui est soumis pour setter la bonne valeur (0 si non 1 si oui)
+                if ($formVoteOui->isSubmitted())
+                {
+                    $voteExist->setVoteReponse(true);
+                    $historique->setCreatedAt(new \Datetime);
+                }
+                //Si ce n'est pas le formulaire oui on set à false (non) et on reset la date
+                else
+                {
+                    $voteExist->setVoteReponse(false);
+                    $historique->setCreatedAt(new \Datetime);
+                }
 
-            $manager->persist($historique);
-            $manager->flush();
+                $manager->persist($voteExist);
+            }
+            //Si un vote n'existe pas pour la combinaison User/Moto/Scénario/Solution
+            else
+            {
+                $historique->setScenario($scenario);
+                $historique->setSolution($questionReponse);
+                $historique->setUser($user);
+                $historique->setCreatedAt(new \Datetime);
+                $historique->setMoto($user->getMotoActive());
 
-            $this->addFlash('success', 'Votre vote a bien été enregistré');
+                //On vérifie quel formulaire est soumis. Si c'est le oui on set la valeur à true sinon à false
+                if ($formVoteOui->isSubmitted()) // Si c'est bien le form oui
+                    $historique->setVoteReponse(true);
+                else // Si c'est le form non
+                    $historique->setVoteReponse(false);
 
-            return $this->redirectToRoute('scenario_list');
-        }
+                $manager->persist($historique);
+            }
 
-        if($formVoteNon->isSubmitted() && $formVoteNon->isValid())
-        {
-            $historique->setScenario($scenario);
-            $historique->setSolution($questionReponse);
-            $historique->setUser($user);
-            $historique->setMoto($user->getMotoActive());
-            $historique->setVoteReponse(false);
-
-            $manager->persist($historique);
             $manager->flush();
 
             $this->addFlash('success', 'Votre vote a bien été enregistré');

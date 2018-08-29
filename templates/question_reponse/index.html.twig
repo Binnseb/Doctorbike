@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <div class="jumbotron jumbotron-fluid">
-                            <h1>Liste de toutes les questions du scenario</h1>
+                            <h1>Liste des questions du scénario :<br> {{ scenario.nom }}</h1>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,15 @@
                                 {% endif %}
 
                                 {% if questionReponse.image %}
-                                    <td>Oui</td>
+                                    <td>
+                                        <img
+                                                src="{{ asset(questionReponse.image.webPath) }}"
+                                                alt="{{ questionReponse.image.alt }}"
+                                                width="50px"
+                                                height="50px"
+                                                class="img-responsive img-circle"
+                                        />
+                                    </td>
                                 {% else %}
                                     <td>Non</td>
                                 {% endif %}

@@ -35,11 +35,6 @@ class Scenario
     private $estTermine;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $estValide;
-
-    /**
      * @ @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -145,7 +140,8 @@ class Scenario
 
     public function addMotCle(MotCle $motCle): self
     {
-        if (!$this->motCle->contains($motCle)) {
+        if (!$this->motCle->contains($motCle))
+        {
             $this->motCle[] = $motCle;
         }
 
@@ -154,7 +150,8 @@ class Scenario
 
     public function removeMotCle(MotCle $motCle): self
     {
-        if ($this->motCle->contains($motCle)) {
+        if ($this->motCle->contains($motCle))
+        {
             $this->motCle->removeElement($motCle);
         }
 
@@ -171,7 +168,8 @@ class Scenario
 
     public function addQuestionReponse(QuestionReponse $questionReponse): self
     {
-        if (!$this->questionReponses->contains($questionReponse)) {
+        if (!$this->questionReponses->contains($questionReponse))
+        {
             $this->questionReponses[] = $questionReponse;
             $questionReponse->setScenario($this);
         }
@@ -181,10 +179,12 @@ class Scenario
 
     public function removeQuestionReponse(QuestionReponse $questionReponse): self
     {
-        if ($this->questionReponses->contains($questionReponse)) {
+        if ($this->questionReponses->contains($questionReponse))
+        {
             $this->questionReponses->removeElement($questionReponse);
             // set the owning side to null (unless already changed)
-            if ($questionReponse->getScenario() === $this) {
+            if ($questionReponse->getScenario() === $this)
+            {
                 $questionReponse->setScenario(null);
             }
         }
@@ -202,7 +202,8 @@ class Scenario
 
     public function addHistorique(Historique $historique): self
     {
-        if (!$this->historiques->contains($historique)) {
+        if (!$this->historiques->contains($historique))
+        {
             $this->historiques[] = $historique;
             $historique->setScenario($this);
         }
@@ -212,14 +213,31 @@ class Scenario
 
     public function removeHistorique(Historique $historique): self
     {
-        if ($this->historiques->contains($historique)) {
+        if ($this->historiques->contains($historique))
+        {
             $this->historiques->removeElement($historique);
             // set the owning side to null (unless already changed)
-            if ($historique->getScenario() === $this) {
+            if ($historique->getScenario() === $this)
+            {
                 $historique->setScenario(null);
             }
         }
 
         return $this;
+    }
+
+    public function satisfactionPourcentage()
+    {
+        $votePositifs = 0;
+
+        foreach ($this->historiques as $historique)
+        {
+            if($historique->getVoteReponse())
+            {
+                $votePositifs ++;
+            }
+        }
+
+        return $votePositifs / sizeof($this->historiques) * 100;
     }
 }

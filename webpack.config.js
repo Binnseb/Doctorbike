@@ -17,7 +17,7 @@ Encore
 
     .addEntry('doctorbikejs', './public/js/doctorbike.js')
 
-    .addStyleEntry('doctorbikecss', './public/build/doctorbikecss.css')
+    .addStyleEntry('doctorbikecss', './public/css/doctorbike.css')
 
     // uncomment if you use Sass/SCSS files
     // .enableSassLoader()

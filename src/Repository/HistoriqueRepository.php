@@ -19,6 +19,26 @@ class HistoriqueRepository extends ServiceEntityRepository
         parent::__construct($registry, Historique::class);
     }
 
+    public function findVoteByUserMotoScenarioSolution($user, $moto, $scenario, $solution)
+    {
+        $qb = $this->createQueryBuilder('h')
+            ->innerJoin('h.user', 'u')
+            ->innerJoin('h.moto', 'm')
+            ->innerJoin('h.scenario', 's')
+            ->innerJoin('h.solution', 'sol')
+            ->where('h.user = :user')
+            ->setParameter('user', $user->getId())
+            ->andWhere('h.moto = :moto')
+            ->setParameter('moto', $moto->getId())
+            ->andWhere('h.scenario = :scenario')
+            ->setParameter('scenario', $scenario->getId())
+            ->andWhere('h.solution = :solution')
+            ->setParameter('solution', $solution->getId())
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Historique[] Returns an array of Historique objects
 //     */

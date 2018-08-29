@@ -399,4 +399,29 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+
+    // Méthode permettant de récupérer la valeur (0 ou 1) d'un vote pour une solution donnée
+    public function getVoteForSolution($idSolution)
+    {
+        $vote = null;
+
+        // On parcours les votes de l'utilisateur
+        foreach ($this->historiques as $element)
+        {
+            // Si la solution du vote actuel représente la solution en paramètre
+            // Et que la moto du vote représente la moto active de l'utilisateur
+            if ($element->getSolution()->getId() == $idSolution && $element->getMoto()->getId() == $this->motoActive->getId())
+            {
+                $vote = $element;
+            }
+        }
+
+        // Si le vote existe
+        if ($vote != null)
+        {
+            return $vote->getVoteReponse(); // On return sa valeur (positif ou négatif)
+        }
+        else // Si le vote n'existe pas, on return null
+            return null;
+    }
 }

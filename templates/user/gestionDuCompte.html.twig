@@ -227,9 +227,9 @@
                                                     {{ historique.moto.annee }}
                                                 </td>
                                                 {% if historique.voteReponse == true %}
-                                                    <td style="color: green; font-weight: bold">Positif</td>
+                                                    <td style="color: green; font-weight: bold; font-size: 20px">Positif</td>
                                                 {% else %}
-                                                    <td style="color: red; font-weight: bold">Négatif</td>
+                                                    <td style="color: red; font-weight: bold; font-size: 20px">Négatif</td>
                                                 {% endif %}
                                                 <td>
                                                     <a href="{{ path('user_delete_historique', {'id': historique.id}) }}"><button type="button" class="btn btn-pill btn-md btn-danger">X</button></a>

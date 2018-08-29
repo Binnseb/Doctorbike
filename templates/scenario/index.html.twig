@@ -17,9 +17,11 @@
                     <div class="jumbotron jumbotron-fluid">
                         <h1>Liste de tous les scénarios</h1>
                         {% if user.motoActive %}
-                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Moto active : {{ user.motoActive.modele.marque }} {{ user.motoActive.modele }} {{ user.motoActive.modele.cylindree.valeur }} {{ user.motoActive.annee }}</span>
+                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Moto active : {{ user.motoActive.modele.marque }} {{ user.motoActive.modele }} {{ user.motoActive.modele.cylindree.valeur }} {{ user.motoActive.annee }}<br>
+                        <a href="{{ path('gestionDuCompte') }} " class="btn btn-primary btn-pill" style="font-weight: bold">Changer de moto</a></span>
                         {% else %}
-                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Aucune moto active (elle ne sera donc pas disponible dans votre historique)</span>
+                        <span style="font-size: 25px; font-weight: bold; color: darkorange">Aucune moto active (Vous ne pouvez donc pas jouer un scénario)<br>
+                        <a href="{{ path('gestionDuCompte') }} " class="btn btn-primary btn-pill" style="font-weight: bold">Ajouter une moto</a></span>
                         {% endif %}
                     </div>
                 </div>
@@ -62,7 +64,6 @@
                     <tbody>
                     {% for scenario in pagination %}
                         <tr>
-
                             <td>
                                 {{ scenario.user.username }}
                                 <br>
@@ -78,21 +79,66 @@
                                 <td>Aucun avatar</td>
                                 {% endif %}
                             </td>
+
                             <td>{{ scenario.nom }}</td>
                             <td>{{ scenario.questionReponses.count }}</td>
                             <td>{{ scenario.historiques.count }}</td>
-                            <td>Taux de satisfaction</td>
-                            <td>
-                                <a href="{{ path('scenario_play', {'id': scenario.id, 'id_question' :scenario.questionReponses.first.id}) }}" class="btn btn-success">Démarrer</a>
-                            </td>
-                            {% if is_granted('ROLE_MODERATEUR') %}
-                                <td><a href="{{ path('list_question_reponse', {'id': scenario.id}) }}" class=" btn btn-warning">Modifier</a></td>
+
+                            {% if scenario.historiques.count > 0 %} }
+                                <td>
+                                    <div class="clearfix">
+                                        <div class="float-center">
+                                            <strong>{{ scenario.satisfactionPourcentage }}%</strong>
+                                        </div>
+                                    </div>
+                                    <div class="progress progress-xs ">
+                                        <div
+                                            {% if scenario.satisfactionPourcentage <= 35 %} class = "progress-bar-striped progress-bar-danger"
+                                            {% elseif  scenario.satisfactionPourcentage >= 75%} class = "progress-bar-striped progress-bar-success"
+                                            {% else %}
+                                            class = "progress-bar-striped progress-bar-warning"
+                                            {% endif %}
+                                             role="progressbar"
+                                             style="width:100%"
+                                             aria-valuenow="{{ scenario.satisfactionPourcentage }}"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </td>
+                            {% else %}
+                                <td>Aucun vote</td>
+                            {% endif %}
+
+                            {% if user.motoActive %}
+                                <td>
+                                    <a href="{{ path('scenario_play', {'id': scenario.id, 'id_question' :scenario.questionReponses.first.id}) }}" class="btn btn-success btn-pill" style="font-weight: bold">Démarrer</a>
+                                </td>
+                            {% else %}
+                                <td>
+                                    <button class="btn btn-success disabled" style="font-weight: bold">Démarrer</button>
+                                </td>
                             {% endif %}
 
                             {% if is_granted('ROLE_MODERATEUR') %}
-                                <td><a href="{{ path('scenario_show', {'id': scenario.id}) }}" class=" btn btn-info">Voir le scénario</a></td>
+                                {% if is_granted('ROLE_ADMIN') or user.id == scenario.user.id %}
+                                    <td>
+                                        <a href="{{ path('list_question_reponse', {'id': scenario.id}) }}" class=" btn btn-warning btn-pill" style="font-weight: bold">Modifier</a>
+                                    </td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if is_granted('ROLE_MODERATEUR') %}
+                                {% if is_granted('ROLE_ADMIN') or user.id == scenario.user.id %}
+                                <td>
+                                    <a href="{{ path('scenario_show', {'id': scenario.id}) }}" class=" btn btn-info btn-pill" style="font-weight: bold">Voir le scénario</a>
+                                </td>
+                                {% endif %}
                             {% endif %}
                         </tr>
+                    {# Si aucun scénario n'est trouvé dans la pagination #}
                     {% else %}
                         <tr>
                             <td colspan="12">Aucun scénario n'est enregistré pour le moment</td>
