@@ -28,10 +28,11 @@ class ScenarioRepository extends ServiceEntityRepository
     public function getWithSearchQueryBuilder(?string $term):QueryBuilder
     {
         $qb = $this->createQueryBuilder('s')
-            ->Join('s.motCle', 'm')
-            ->addSelect('s');
+            ->innerJoin('s.questionReponses', 'qr')
+            ->addSelect('s')
+            ->where('s.estTermine = true');
         if ($term) {
-            $qb->andWhere('s.nom LIKE :term OR m.nom LIKE :term')
+            $qb->andWhere('s.nom LIKE :term OR qr.question LIKE :term')
                 ->setParameter('term', '%' . $term . '%')
             ;
         }

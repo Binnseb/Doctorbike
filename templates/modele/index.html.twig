@@ -58,7 +58,8 @@
                         <tr>
                             <td>{{ modele.nom }}</td>
                             <td>{{ modele.marque.nom }}</td>
-                            <td>{% if modele.marque.image %}
+                            {% if modele.marque.image %}
+                                <td>
                                     <img
                                             src="{{ asset(modele.marque.image.webPath) }}"
                                             alt="{{ modele.marque.image.alt }}"
@@ -66,7 +67,10 @@
                                             height="50px"
                                             class="img-responsive img-circle"
                                     />
-                                {% endif %}</td>
+                                </td>
+                                {% else %}
+                                <td>Pas de logo</td>
+                                {% endif %}
                             <td>{{ modele.cylindree.valeur }}</td>
                             <td><a href="{{ path('modele_show', {'id': modele.id}) }}" class="btn btn-info">Voir le modèle</a></td>
                             <td><a href="{{ path('modele_edit', {'id': modele.id}) }}" class="btn btn-warning">Modifier le modèle</a></td>

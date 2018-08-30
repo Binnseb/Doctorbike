@@ -18,13 +18,7 @@ class ScenarioType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Le nom de votre scénario'
             ])
-            ->add('motCle', CollectionType::class, [
-                'entry_type' => MotCleType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true
-             ])
+
             ->add('question', TextareaType::class, [
                 'mapped' => false,
                 'label' => 'La première question du scénario'

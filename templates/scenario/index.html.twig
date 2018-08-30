@@ -50,20 +50,24 @@
             <div class="row">
                 <table class="table table-striped table-responsive-sm table-bordered table-dark table-hover table-outline">
                     <thead>
-                    <tr>
-                        <th style="vertical-align: middle">Auteur</th>
-                        <th style="vertical-align: middle">Nom du scénario</th>
-                        <th style="vertical-align: middle">Nombre de questions</th>
-                        <th style="vertical-align: middle">Nombre de votes</th>
-                        <th style="vertical-align: middle">Satisfaction</th>
-                        <th style="vertical-align: middle">Jouer</th>
-                        {% if is_granted('ROLE_MODERATEUR') %}
-                        <th style="vertical-align: middle">Modifier</th>
-                        <th style="vertical-align: middle">Voir</th>
-                        {% endif %}
-                    </tr>
+
+                        <tr>
+                            <th style="vertical-align: middle">Auteur</th>
+                            <th style="vertical-align: middle">Nom du scénario</th>
+                            <th style="vertical-align: middle">Nombre de questions</th>
+                            <th style="vertical-align: middle">Nombre de votes</th>
+                            <th style="vertical-align: middle">Satisfaction</th>
+                            <th style="vertical-align: middle">Jouer</th>
+                            {% if is_granted('ROLE_MODERATEUR') %}
+                            <th style="vertical-align: middle">Modifier</th>
+                            <th style="vertical-align: middle">Voir</th>
+                            {% endif %}
+                        </tr>
+
                     </thead>
+
                     <tbody>
+
                     {% for scenario in pagination %}
                         <tr>
                             <td>
@@ -156,7 +160,9 @@
                             <td colspan="12">Aucun scénario n'est enregistré pour le moment</td>
                         </tr>
                     {% endfor %}
+
                     </tbody>
+
                 </table>
                 {{ knp_pagination_render(pagination) }}
             </div>

@@ -36,10 +36,8 @@ class SubmitQuestionReponseType extends AbstractType
             ->add('Suivant', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary btn-pill btn-block']
             ])
+        ;
 
-            ->add('Terminer', SubmitType::class, [
-            'attr' => ['class' => 'btn btn-success btn-pill btn-block']
-    ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

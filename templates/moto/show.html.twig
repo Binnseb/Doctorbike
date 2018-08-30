@@ -27,8 +27,8 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>
-                            {% if moto.Modele.marque.image %}
+                        {% if moto.Modele.marque.image %}
+                            <td>
                                 <img
                                         src="{{ asset(moto.Modele.marque.image.webPath) }}"
                                         alt="{{ moto.Modele.marque.image.alt }}"
@@ -36,8 +36,10 @@
                                         height="50px"
                                         class="img-responsive img-circle"
                                 />
-                            {% endif %}
-                        </td>
+                            </td>
+                        {% else %}
+                            <td>Pas de logo</td>
+                        {% endif %}
                         <td>{{ moto.Modele.Marque.Nom }}</td>
                         <td>{{ moto.Modele.Nom }}</td>
                         <td>{{ moto.Modele.Cylindree.Valeur }}</td>

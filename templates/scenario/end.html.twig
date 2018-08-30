@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron jumbotron-fluid text-center">
+                    <h1 style="color: green; font-weight: bold">Votre scenario à bien été ajouté !</h1>
+                    <p>Vous pouvez modifier le nom du scénario ou les questions de ce dernier par la suite dans la section prévue à cet effet</p>
+                    <a href="{{ path('scenario_list') }}" class="btn btn-info btn-pill">Revenir à la liste des scénarios</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

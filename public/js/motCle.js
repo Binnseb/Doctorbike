@@ -2,6 +2,7 @@
 jQuery(document).ready(function()
 {
     var $wrapper = $('.js-keyword-wrapper');
+
     $wrapper.on('click', '.js-keyword-remove', function(e) {
         e.preventDefault();
 

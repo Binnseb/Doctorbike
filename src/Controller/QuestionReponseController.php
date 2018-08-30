@@ -124,14 +124,30 @@ class QuestionReponseController extends Controller
             $id = $scenario->getId();
 
             return $this->redirectToRoute('new_question_reponse', [
-                'id' => $id
+                'id' => $id,
+                'scenario' => $scenario
             ]);
         }
 
+        // Si le scénario est terminé (vérifié grâce à la méthode dans l'entity scénario)
+        if ($scenario->checkIfAllQuestionsHaveAnswer())
+        {
+            $scenario->setEstTermine(true);
+
+            $manager->persist($scenario);
+            $manager->flush();
+
+            $this->addFlash('success', 'Scénario terminé ! (Toutes les questions mènent à une solution)');
+
+            return $this->render('scenario/end.html.twig');
+        }
+
         return $this->render('question_reponse/new.html.twig', [
-            'formSubmitQuestionReponse' => $formSubmitQuestionReponse->createView(),
-            'id' => $scenario->getId()
+            'id' => $scenario->getId(),
+            'scenario' => $scenario,
+            'formSubmitQuestionReponse' => $formSubmitQuestionReponse->createView()
         ]);
+
     }
 
     /**
@@ -164,5 +180,6 @@ class QuestionReponseController extends Controller
             'formEditQuestionReponse' => $form->createView()
         ]);
     }
+
 
 }

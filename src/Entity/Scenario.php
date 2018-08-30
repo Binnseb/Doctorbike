@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ScenarioRepository")
@@ -20,6 +21,8 @@ class Scenario
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="10", minMessage="Le nom du scénario est trop court ! Soyez plus explicite")
+     * @Assert\Length(max="100", maxMessage="Ce nom de scénario est beaucoup trop long !")
      */
     private $nom;
 
@@ -40,11 +43,6 @@ class Scenario
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\MotCle", inversedBy="scenarios", orphanRemoval=true, cascade={"persist"})
-     */
-    private $motCle;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\QuestionReponse", mappedBy="scenario", orphanRemoval=true)
      */
     private $questionReponses;
@@ -56,7 +54,6 @@ class Scenario
 
     public function __construct()
     {
-        $this->motCle = new ArrayCollection();
         $this->questionReponses = new ArrayCollection();
     }
 
@@ -101,18 +98,6 @@ class Scenario
         return $this;
     }
 
-    public function getEstValide(): ?bool
-    {
-        return $this->estValide;
-    }
-
-    public function setEstValide(bool $estValide): self
-    {
-        $this->estValide = $estValide;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -130,33 +115,6 @@ class Scenario
         return $user && $user->getId() === $this->getUser();
     }
 
-    /**
-     * @return Collection|MotCle[]
-     */
-    public function getMotCle(): Collection
-    {
-        return $this->motCle;
-    }
-
-    public function addMotCle(MotCle $motCle): self
-    {
-        if (!$this->motCle->contains($motCle))
-        {
-            $this->motCle[] = $motCle;
-        }
-
-        return $this;
-    }
-
-    public function removeMotCle(MotCle $motCle): self
-    {
-        if ($this->motCle->contains($motCle))
-        {
-            $this->motCle->removeElement($motCle);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|QuestionReponse[]
@@ -239,5 +197,24 @@ class Scenario
         }
 
         return $votePositifs / sizeof($this->historiques) * 100;
+    }
+
+    public function checkIfAllQuestionsHaveAnswer()
+    {
+        // On parcours les questionsReponses du scénario
+        foreach ($this->questionReponses as $questionReponse)
+        {
+            //Si l'élement courant n'a pas de question Si oui et Si non
+            if (
+                $questionReponse->getEstSolution() == false &&
+                $questionReponse->getIdQuestionSiOui() == null &&
+                $questionReponse->getIdQuestionSiNon() == null
+                )
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

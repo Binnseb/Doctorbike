@@ -12,6 +12,61 @@
         {% endfor %}
     {% endfor %}
 
+    {% if app.user %}
+
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron jumbotron-fluid">
+                    <h1>Bonjour {{ user.username }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table style="border-collapse: collapse" id="Lien" class="table table-hover table-responsive-sm">
+
+                    <thead>
+                        <tr>
+                            <th colspan="12">Quelques liens pratiques</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td><a class="btn btn-danger btn-pill btn-lg " role="button" aria-pressed="true"  href="http://www.moto-journal.fr" target="_blank">Moto Journal</a></td>
+
+                            <td><a class="btn btn-warning btn-pill btn-lg " role="button" aria-pressed="true"  href="http://www.motoplanete.com/"target="_blank">Motoplanete</a></td>
+
+                            <td><a class="btn btn-info btn-pill btn-lg " role="button" aria-pressed="true"  href="http://www.gp-inside.com/"target="blank">Gpinside</a></td>
+
+                            <td><a class="btn btn-primary btn-pill btn-lg " role="button" aria-pressed="true"  href="http://www.highside-moto.com/"target="_blank">HighSide</a></td>
+
+                            <td><a class="btn btn-dark btn-pill btn-lg " role="button" aria-pressed="true"  href="http://www.mxgp.com/results/statistics"target="_blank">Resultats MXGP</a></td>
+
+                            <td><a class="btn btn-light btn-pill btn-lg " role="button" aria-pressed="true"  href="https://www.louis.eu/fr/rubrik/entretien-et-maintenance-moto/3"target="_blank">Conseil méca</a></td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+            <img src="{{ asset('Images/2013-honda-rc213v-marc-marquez.jpg') }}" style="width: 100%">
+        </div>
+     </div>
+
+
+
+    {% else %}
+
     <div class="container text-center">
             <div class="row">
                 <div class="col-md-12">
@@ -23,7 +78,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="jumbotron jumbotron-fluid" style="background: transparent; border: none">
+                <div class="jumbotron jumbotron-fluid" style="background: black;">
                     <p style="color: white; font-size: 20px">
                         Doctorbike est une plateforme permettant de trouver (dans la mesure du possible) l'origine d'une panne pouvant survenir sur votre moto. <br>
 
@@ -35,5 +90,48 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+                <table style="border-collapse: collapse" id="Lien" class="table table-hover table-responsive-sm">
+
+                    <thead>
+
+                    <tr>
+                        <th colspan="12">Quelques liens pratiques</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+                        <td><a class="btn btn-danger btn-pill btn-lg "  href="http://www.moto-journal.fr" target="_blank">Moto Journal</a></td>
+
+                        <td><a class="btn btn-warning btn-pill btn-lg "  href="http://www.motoplanete.com/"target="_blank">Motoplanete</a></td>
+
+                        <td><a class="btn btn-info btn-pill btn-lg "  href="http://www.gp-inside.com/"target="blank">Gpinside</a></td>
+
+                        <td><a class="btn btn-primary btn-pill btn-lg "  href="http://www.highside-moto.com/"target="_blank">HighSide</a></td>
+
+                        <td><a class="btn btn-dark btn-pill btn-lg "  href="http://www.mxgp.com/results/statistics"target="_blank">Resultats MXGP</a></td>
+
+                        <td><a class="btn btn-light btn-pill btn-lg " href="https://www.louis.eu/fr/rubrik/entretien-et-maintenance-moto/3"target="_blank">Conseil méca</a></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+                <img src="{{ asset('Images/46-rossi__gp_5185.big.jpg') }}" style="width: 100%">
+            </div>
+        </div>
+
     </div>
+
+    {% endif %}
+
 {% endblock %}

@@ -26,6 +26,8 @@ class Marque
      * @Assert\Length(
      *     max="60",
      *     maxMessage="Le nom de la marque ne peut pas être supérieur à 60 caractères",
+     *     min="3",
+     *     minMessage="Le nom de la marque ne peut pas être inférieur à 3 caractères"
      * )
      */
     private $nom;

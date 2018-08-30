@@ -28,7 +28,7 @@
                             <input type="text"
                                    name="q"
                                    class="form-control"
-                                   placeholder="Vous pouvez rechercher une moto par son modele, marque, cylindree ou année"
+                                   placeholder="Vous pouvez rechercher une moto par son modele, sa marque, sa cylindrée ou son année de fabrication"
                             >
                             <div class="input-group-append">
                                 <button type="submit"
@@ -56,17 +56,20 @@
                     <tbody>
                     {% for moto in pagination %}
                         <tr>
+
+                            {% if moto.Modele.marque.image %}
                             <td>
-                                {% if moto.Modele.marque.image %}
-                                    <img
-                                            src="{{ asset(moto.Modele.marque.image.webPath) }}"
-                                            alt="{{ moto.Modele.marque.image.alt }}"
-                                            width="50px"
-                                            height="50px"
-                                            class="img-responsive img-circle"
-                                    />
-                                {% endif %}
+                                <img
+                                        src="{{ asset(moto.Modele.marque.image.webPath) }}"
+                                        alt="{{ moto.Modele.marque.image.alt }}"
+                                        width="50px"
+                                        height="50px"
+                                        class="img-responsive img-circle"
+                                />
                             </td>
+                            {% else %}
+                                <td>Pas de logo</td>
+                            {% endif %}
                             <td>{{ moto.Modele.Marque.Nom }}</td>
                             <td>{{ moto.Modele.Nom }}</td>
                             <td>{{ moto.Modele.Cylindree.Valeur }}</td>

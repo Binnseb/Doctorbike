@@ -146,7 +146,8 @@
                                                         <td>{{ moto.Modele.Cylindree.Valeur }}</td>
                                                         <td>{{ moto.Annee }}</td>
                                                         {% if user.motoActive == moto %}
-                                                            <td><img
+                                                            <td>
+                                                                <img
                                                                  src="{{ asset('Images/Check_icon.svg.png') }}"
                                                                  width="50px"
                                                                  height="50px"
@@ -320,6 +321,7 @@
                                                         <th>Nombre de votes</th>
                                                         <th>Satisfaction</th>
                                                         <th>Nombre de Q/R</th>
+                                                        <th>Est terminé</th>
                                                         <th>Modifier</th>
                                                         <th>Supprimer</th>
                                                     </tr>
@@ -373,6 +375,21 @@
                                                             <td>
                                                                 {{ scenario.questionReponses.count }}
                                                             </td>
+
+                                                            {% if scenario.estTermine %}
+                                                            <td>
+                                                                <img
+                                                                        src="{{ asset('Images/Check_icon.svg.png') }}"
+                                                                        width="50px"
+                                                                        height="50px"
+                                                                        class="img-responsive img-circle"
+                                                                >
+                                                            </td>
+                                                            {% else %}
+                                                            <td>
+                                                                <a href="{{ path('new_question_reponse', {'id' : scenario.id}) }}" class="btn btn-pill btn-primary">Continuer</a>
+                                                            </td>
+                                                            {% endif %}
 
                                                             <td>
                                                                 <a href="{{ path('list_question_reponse', {'id' : scenario.id}) }}"><button type="button" class="btn btn-pill btn-md btn-warning">Modifier</button></a>

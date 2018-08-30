@@ -14,7 +14,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return $this->render('home/index.html.twig');
+        $user = $this->getUser();
+
+        return $this->render('home/index.html.twig', [
+            'user' => $user
+        ]);
     }
 
     /**

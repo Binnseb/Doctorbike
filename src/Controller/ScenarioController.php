@@ -90,11 +90,7 @@ class ScenarioController extends Controller
             $scenario->setUser($user);
             $scenario->setNom($form->get('nom')->getData());
             $scenario->setEstTermine(false);
-            $scenario->setEstValide(false);
             $scenario->setCreatedAt(new \DateTime());
-
-            // Liste mots-clé
-            $motscle = $form->get('motCle')->getData();
 
             //On set les questions réponses (vu que c'est la première false pour la solution et true pour estPremiereQuestion
             $questionReponse->setQuestion($form->get('question')->getData());
@@ -103,14 +99,6 @@ class ScenarioController extends Controller
             $questionReponse->setEstSolution(false);
             $questionReponse->setEstPremiereQuestion(true);
             $questionReponse->setImage($form->get('image')->getData());
-
-            //On ajoute les mots clés aux scénarios (table associative)
-
-            foreach ($motscle as $element)
-            {
-                $scenario->addMotCle($element);
-                $manager->persist($element);
-            }
 
             //On fait persister nos entitées
             $manager->persist($scenario);
@@ -240,16 +228,6 @@ class ScenarioController extends Controller
 
         if($form->isSubmitted() && $form->isValid())
         {
-            // Liste mots-clé
-            $motscle = $form->get('motCle')->getData();
-
-            //On ajoute les mots clés aux scénarios (table associative)
-            foreach ($motscle as $element)
-            {
-                $scenario->addMotCle($element);
-                $manager->persist($element);
-            }
-
             //On fait persister nos entitées
             $manager->persist($scenario);
 
@@ -273,11 +251,10 @@ class ScenarioController extends Controller
      * @Route("/delete/{id}", name="scenario_delete", methods="DELETE")
      * @param Scenario $scenario
      * @param QuestionReponseRepository $questionReponseRepository
-     * @param MotCleRepository $motCleRepository
      * @param Request $request
      * @return Response
      */
-    public function delete(Scenario $scenario, QuestionReponseRepository $questionReponseRepository, MotCleRepository $motCleRepository, Request $request): Response
+    public function delete(Scenario $scenario, QuestionReponseRepository $questionReponseRepository, Request $request): Response
     {
         if ($this->isCsrfTokenValid('delete'.$scenario->getId(), $request->request->get('_token')))
         {
@@ -285,16 +262,9 @@ class ScenarioController extends Controller
 
             $questionReponses = $questionReponseRepository->findAllQuestions($scenario->getId());
 
-            $motCles = $motCleRepository->findBy(['id' => $scenario->getId()]);
-
             foreach ($questionReponses as $element)
             {
                 $em->remove($scenario->removeQuestionReponse($element));
-            }
-
-            foreach ($motCles as $element)
-            {
-                $scenario->removeMotCle($element);
             }
 
             $em->flush();

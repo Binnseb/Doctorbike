@@ -31,44 +31,70 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card text-primary bg-dark sm-12">
-                    <div class="card-header" style="text-align: center">
-                        <h2>Réponses pour la question : </h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    {{ form_start(formSubmitQuestionReponse) }}
+                        <div class="card-header" style="text-align: center">
+                            <h2>Réponses pour la question : </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        {{ form_start(formSubmitQuestionReponse) }}
 
-                                    {{ form_errors(formSubmitQuestionReponse) }}
+                                        {{ form_errors(formSubmitQuestionReponse) }}
 
-                                    {{ form_row(formSubmitQuestionReponse.ChoixQuestion) }}
+                                        {{ form_row(formSubmitQuestionReponse.ChoixQuestion) }}
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
 
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="card bg-dark border-primary">
-                                    <div class="card-header">
-                                        <h4 style="text-align: center">Réponse si oui</h4>
-                                        {{ form_row(formSubmitQuestionReponse.QuestionSiOui.choixNouvelleRepOuQuestionAnt) }}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="card bg-dark border-primary">
+                                        <div class="card-header">
+                                            <h4 style="text-align: center">Réponse si oui</h4>
+                                            {{ form_row(formSubmitQuestionReponse.QuestionSiOui.choixNouvelleRepOuQuestionAnt) }}
+                                        </div>
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        {{ form_row(formSubmitQuestionReponse.QuestionSiOui.estSolution) }}
+
+                                                        {{ form_row(formSubmitQuestionReponse.QuestionSiOui.question) }}
+
+                                                        {{ form_row(formSubmitQuestionReponse.QuestionSiOui.aide) }}
+
+                                                        {{ form_row(formSubmitQuestionReponse.QuestionSiOui.image) }}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
 
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiOui.estSolution) }}
+                                <div class="col-sm-6">
+                                    <div class="card bg-dark border-primary">
+                                        <div class="card-header">
+                                            <h4 style="text-align: center">Réponse si non</h4>
+                                            {{ form_row(formSubmitQuestionReponse.QuestionSiNon.choixNouvelleRepOuQuestionAnt) }}
+                                        </div>
 
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiOui.question) }}
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        {{ form_row(formSubmitQuestionReponse.QuestionSiNon.estSolution) }}
 
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiOui.aide) }}
+                                                        {{ form_row(formSubmitQuestionReponse.QuestionSiNon.question) }}
 
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiOui.image) }}
+                                                        {{ form_row(formSubmitQuestionReponse.QuestionSiNon.aide) }}
 
+                                                        {{ form_row(formSubmitQuestionReponse.QuestionSiNon.image) }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -76,47 +102,17 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6">
-                                <div class="card bg-dark border-primary">
-                                    <div class="card-header">
-                                        <h4 style="text-align: center">Réponse si non</h4>
-                                        {{ form_row(formSubmitQuestionReponse.QuestionSiNon.choixNouvelleRepOuQuestionAnt) }}
-                                    </div>
+                            <br>
 
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiNon.estSolution) }}
+                            {{ form_row(formSubmitQuestionReponse.Suivant) }}
 
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiNon.question) }}
+                            {{ form_rest(formSubmitQuestionReponse) }}
 
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiNon.aide) }}
-
-                                                    {{ form_row(formSubmitQuestionReponse.QuestionSiNon.image) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {{ form_end(formSubmitQuestionReponse) }}
                         </div>
                     </div>
-                    {{ form_row(formSubmitQuestionReponse.Suivant) }}
-
-                    {{ form_rest(formSubmitQuestionReponse) }}
-
-                    {{ form_end(formSubmitQuestionReponse) }}
-
-                    {% if checkForm %}
-                        <button class="btn-success btn btn-pill disabled">Terminer</button>
-                    {% else %}
-                        <a class="btn-success btn btn-pill" href="{{ path('scenario_list') }}">Terminer</a>
-                    {% endif %}
-
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
 
 {% endblock %}

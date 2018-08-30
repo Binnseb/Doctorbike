@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -24,6 +25,10 @@ class Modele
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Assert\Length(
+     *     max="60",
+     *     maxMessage="Le nom de la marque ne peut pas être supérieur à 60 caractères"
+     * )
      */
     private $nom;
 
