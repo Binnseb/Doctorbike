@@ -36,7 +36,10 @@ class CylindreeController extends Controller
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('cylindree/index.html.twig', ['pagination' => $pagination]);
+        return $this->render('cylindree/index.html.twig', [
+            'pagination' => $pagination,
+            '#' => 'headingThree'
+        ]);
     }
 
     /**
@@ -86,6 +89,39 @@ class CylindreeController extends Controller
     public function show(Cylindree $cylindree): Response
     {
         return $this->render('cylindree/show.html.twig', ['cylindree' => $cylindree]);
+    }
+
+    /**
+     * Méthode permettant d'éditer une cylindrée sur base de son ID reçue en URL
+     * @Route("/edit/{id}", name="cylindree_edit", methods="GET|POST")
+     * @param Request $request
+     * @param Cylindree $cylindree
+     * @return Response
+     */
+    public function edit(Request $request, Cylindree $cylindree): Response
+    {
+        $form = $this->createForm(CylindreeType::class, $cylindree);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'La cylindrée a bien été modifiée');
+
+            return $this->redirectToRoute('cylindree_edit', ['id' => $cylindree->getId()]);
+        }
+
+        if($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('danger', 'Une erreur est survenue');
+        }
+
+        return $this->render('cylindree/edit.html.twig', [
+            'cylindree' => $cylindree,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

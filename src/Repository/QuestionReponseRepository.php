@@ -38,7 +38,7 @@ class QuestionReponseRepository extends ServiceEntityRepository
     }
 
     /**
-     * Méthode permettant de trouver toutes les questions du scénario qui sont sans réponses (si idQuestionSi... est null)
+     * Méthode permettant de savoir si toutes les questions mènent à une solution
      * @param $id
      * @return mixed
      */

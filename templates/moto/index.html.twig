@@ -49,6 +49,7 @@
                             <th>Modele</th>
                             <th>Cylindree</th>
                             <th>Annee</th>
+                            <th>User lié</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -70,6 +71,7 @@
                             <td>{{ moto.Modele.Nom }}</td>
                             <td>{{ moto.Modele.Cylindree.Valeur }}</td>
                             <td>{{ moto.Annee }}</td>
+                            <td>{{ moto.users.count }}</td>
                             <td>
                                 <a href="{{ path('moto_show', {'id': moto.id}) }}" class="btn btn-info">Voir la moto</a>
                             </td>

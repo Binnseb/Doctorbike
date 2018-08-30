@@ -2,8 +2,9 @@
 jQuery(document).ready(function()
 {
     var $wrapper = $('.js-keyword-wrapper');
-    $wrapper.on('click', '.js-remove-keyword', function(e) {
+    $wrapper.on('click', '.js-keyword-remove', function(e) {
         e.preventDefault();
+
         $(this).closest('.js-keyword-item')
             .fadeOut()
             .remove();

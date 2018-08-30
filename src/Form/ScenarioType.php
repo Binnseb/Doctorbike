@@ -19,7 +19,6 @@ class ScenarioType extends AbstractType
                 'label' => 'Le nom de votre scénario'
             ])
             ->add('motCle', CollectionType::class, [
-                'mapped' => false,
                 'entry_type' => MotCleType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

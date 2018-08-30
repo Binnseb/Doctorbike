@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Historique;
 use App\Entity\QuestionReponse;
 use App\Entity\Scenario;
+use App\Form\ScenarioEditType;
 use App\Form\VoteNonType;
 use App\Form\VoteOuiType;
 use App\Form\VoteType;
@@ -222,6 +223,49 @@ class ScenarioController extends Controller
     public function show(Scenario $scenario): Response
     {
         return $this->render('scenario/show.html.twig', ['scenario' => $scenario]);
+    }
+
+    /**
+     * Méthode pour l'ajout du scénario (avant d'ajouter les questions réponses liées)
+     * @Route("/edit/{id}", name="edit_scenario")
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function editScenario(Request $request, Scenario $scenario, ObjectManager $manager)
+    {
+        $form = $this->createForm(ScenarioEditType::class, $scenario);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            // Liste mots-clé
+            $motscle = $form->get('motCle')->getData();
+
+            //On ajoute les mots clés aux scénarios (table associative)
+            foreach ($motscle as $element)
+            {
+                $scenario->addMotCle($element);
+                $manager->persist($element);
+            }
+
+            //On fait persister nos entitées
+            $manager->persist($scenario);
+
+            $manager->flush();
+
+            $this->addFlash('success', 'Le scénario a bien été mis à jour');
+
+            $id = $scenario->getId();
+
+            return $this->redirectToRoute('edit_scenario', ['id' => $id]);
+
+        }
+
+        return $this->render('scenario/edit.html.twig', [
+            'formEditScenario' => $form->createView(),
+        ]);
     }
 
     /**

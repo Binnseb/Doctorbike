@@ -12,25 +12,26 @@
         {% endfor %}
     {% endfor %}
 
-    <div class="block push text-center">
-        <div class="container-fluid">
+    <div class="container text-center">
             <div class="row">
-                <div class="col-md-12 text-center">
+                <div class="col-md-12">
                     <div class="jumbotron jumbotron-fluid">
                         <h1>Bienvenue sur Doctorbike</h1>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <p style="color: #880000; font-size: 20px">
-                        Doctorbike est une plateforme permettant de trouver (dans la mesure du possible) l'origine d'une panne pouvant survenir sur votre moto <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron jumbotron-fluid" style="background: transparent; border: none">
+                    <p style="color: white; font-size: 20px">
+                        Doctorbike est une plateforme permettant de trouver (dans la mesure du possible) l'origine d'une panne pouvant survenir sur votre moto. <br>
 
-                        Ce diagnostic se présente sous forme d'un questionnaire questions/réponses. Les différents scénarios existants sont disponibles <a href="{{ path('scenario_list') }}" style="text-underline-mode: none">ici</a>
+                        Ce diagnostic se présente sous forme d'un questionnaire questions/réponses auquel il vous faudra répondre par Oui ou par Non. Les différents scénarios existants sont disponibles <a href="{{ path('scenario_list') }}" style="text-underline-mode: none">ici</a>.<br>
                     </p>
-
-                    <img id="Home" src="{{ asset('Images/Marquez.jpg') }}"/>
+                    <p>
+                        <span style="font-weight: bold; color: red; font-size: 20px">Vous devez posséder un <a href="{{ path('inscription') }}" style="text-underline-mode: none">compte</a> pour pouvoir accéder au diagnostic ! </span>
+                    </p>
                 </div>
             </div>
         </div>

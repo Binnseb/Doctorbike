@@ -86,18 +86,38 @@ class UserController extends Controller
 
     /**
      * Méthode permettant de mettre à jour les informations de l'utilisateur en cours
-     * @Route("/gestionDuCompte", name="gestionDuCompte")
+     * @Route("/gestionDuCompte", name="gestionDuCompte", requirements={"fragment": "headingThree"})
      * @param Request $request
      * @param ObjectManager $manager
      * @return Response
      */
-    public function updateUser(Request $request, ObjectManager $manager)
+    public function gestionDuCompte(Request $request, ObjectManager $manager, HistoriqueRepository $historiqueRepository, PaginatorInterface $paginator)
     {
         $user = $this->getUser();
+
+        //q représente le texte inséré dans la barre de recherche du formulaire
+        $q = $request->query->get('q');
+        $queryBuilder = $historiqueRepository->getWithSearchQueryBuilder($q, $user->getId());
+        //On définit le nombre de lignes (résultat) à afficher par page
+        $pagination = $paginator->paginate(
+            $queryBuilder,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         $form = $this->createForm(UpdateUserType::class, $user);
 
         $form->handleRequest($request);
+
+        if($q)
+        {
+            $this->redirectToRoute('gestionDuCompte',
+                [
+                    'pagination' => $pagination,
+                    'user' => $user,
+                    'formUpdateUser' => $form->createView()
+                ]);
+        }
 
         if ($form->isSubmitted() && $form->isValid())
         {
@@ -115,7 +135,8 @@ class UserController extends Controller
 
         return $this->render('user/gestionDuCompte.html.twig', [
             'user' => $user,
-            'formUpdateUser' => $form->createView()
+            'formUpdateUser' => $form->createView(),
+            'pagination' => $pagination
         ]);
     }
 

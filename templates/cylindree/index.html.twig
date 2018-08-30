@@ -45,13 +45,17 @@
                     <thead>
                         <tr>
                             <th>Valeur</th>
-                            <th>Action</th>
+                            <th colspan="6">Modifier</th>
+                            <th colspan="6">Voir</th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for cylindree in pagination %}
                         <tr>
                             <td>{{ cylindree.valeur }}</td>
+                            <td colspan="6">
+                                <a href="{{ path('cylindree_edit', {'id': cylindree.id}) }}" class="btn btn-warning btn-pill btn">Modifier la cylindrée</a>
+                            </td>
                             <td colspan="6">
                                 <a href="{{ path('cylindree_show', {'id': cylindree.id}) }}" class="btn-info btn">Voir la cylindrée</a>
                             </td>

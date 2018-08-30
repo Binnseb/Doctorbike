@@ -104,13 +104,16 @@
                     </div>
                     {{ form_row(formSubmitQuestionReponse.Suivant) }}
 
-                    {{ form_row(formSubmitQuestionReponse.Terminer) }}
-
-                    <br>
-
                     {{ form_rest(formSubmitQuestionReponse) }}
 
                     {{ form_end(formSubmitQuestionReponse) }}
+
+                    {% if checkForm %}
+                        <button class="btn-success btn btn-pill disabled">Terminer</button>
+                    {% else %}
+                        <a class="btn-success btn btn-pill" href="{{ path('scenario_list') }}">Terminer</a>
+                    {% endif %}
+
                     </div>
                 </div>
             </div>

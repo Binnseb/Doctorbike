@@ -19,13 +19,14 @@
                 <table class="table table-hover table-responsive-sm">
                     <thead>
                     <tr>
-                        <th>Auteur</th>
-                        <th>Nom</th>
-                        <th>Nombre de questions</th>
-                        <th>Nombre de votes</th>
-                        <th>Taux de satisfaction</th>
-                        <th>Créé le</th>
-                        <th>Action</th>
+                        <th style="vertical-align: middle">Auteur</th>
+                        <th style="vertical-align: middle">Nom</th>
+                        <th style="vertical-align: middle">Nombre de questions</th>
+                        <th style="vertical-align: middle">Nombre de votes</th>
+                        <th style="vertical-align: middle">Taux de satisfaction</th>
+                        <th style="vertical-align: middle">Créé le</th>
+                        <th style="vertical-align: middle">Modifier</th>
+                        <th style="vertical-align: middle">Supprimer</th>
                     </tr>
                     </thead>
 
@@ -74,6 +75,7 @@
                             <td>Aucun vote</td>
                         {% endif %}
                         <td style="text-align: center; vertical-align: middle">{{ scenario.createdAt|date("d/m/Y") }}</td>
+                        <td><a href="{{ path('edit_scenario', {'id' : scenario.id}) }}" class="btn btn-warning btn-pill">Modifier</a></td>
                         <td>{{ include('scenario/_delete_form.html.twig') }}</td>
                     </tr>
                     </tbody>

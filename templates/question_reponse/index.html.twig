@@ -16,6 +16,7 @@
                     <div class="col-md-12 text-center">
                         <div class="jumbotron jumbotron-fluid">
                             <h1>Liste des questions du scénario :<br> {{ scenario.nom }}</h1>
+                            <td><a href="{{ path('edit_scenario', {'id' : scenario.id}) }}" class="btn btn-warning btn-pill">Modifier le scénario</a></td>
                         </div>
                     </div>
                 </div>

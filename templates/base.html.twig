@@ -28,7 +28,22 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarColor02">
-                <a href="{{ path('scenario_list') }}" style="text-align: center" ><button class="btn btn-pill btn-outline-info" >Le diagnostic</button></a>
+                <a href="{{ path('scenario_list') }}">
+                    <button class="btn btn-pill btn-outline-info" >
+                         <img
+                            src="{{ asset('Images/icons8-maintenance-48.png') }}"
+                            width="30px"
+                            height="30px"
+                            class="img-responsive"
+                         > <span style="font-weight: bold; font-size: 20px">Le diagnostic</span>
+                         <img
+                            src="{{ asset('Images/icons8-maintenance-48.png') }}"
+                            width="30px"
+                            height="30px"
+                            class="img-responsive"
+                         >
+                    </button>
+                </a>
             </div>
 
             {% if is_granted('ROLE_ADMIN') %}

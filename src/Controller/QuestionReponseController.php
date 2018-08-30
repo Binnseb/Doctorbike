@@ -72,16 +72,19 @@ class QuestionReponseController extends Controller
         //Si le formulaire principal est soumis et qu'il est valide (ensemble des 3 formulaires également)
         if($formSubmitQuestionReponse->isSubmitted() && $formSubmitQuestionReponse->isValid())
         {
+            //On récupère la valeur indiquée dans la liste déroulante des form Oui ou Non si c'est une question antérieur
             $questionAnterieurOui = $formSubmitQuestionReponse->get('QuestionSiOui')->get('choixNouvelleRepOuQuestionAnt')->getData();
             $questionAnterieurNon = $formSubmitQuestionReponse->get('QuestionSiNon')->get('choixNouvelleRepOuQuestionAnt')->getData();
 
-            //On affecte la question choisie dans le formulaire à une variable
+            //On affecte la question parent choisie dans le formulaire à une variable
             $questionActuelle = $formSubmitQuestionReponse->get('ChoixQuestion')->get('listeDesQuestionsSansReponses')->getData();
 
+            //Si une question antérieur est sélectionnée on set la bonne ID à la question actuelle
             if($questionAnterieurOui)
             {
                 $questionActuelle->setIdQuestionSiOui($questionAnterieurOui);
             }
+            //Sinon on crée une nouvelle question
             else
                 {
                     //On set la question pour la réponse oui
@@ -119,11 +122,6 @@ class QuestionReponseController extends Controller
             $this->addFlash('success', 'Les questions ont bien été ajoutées');
 
             $id = $scenario->getId();
-
-            if($formSubmitQuestionReponse->getClickedButton() && 'Terminer' == $formSubmitQuestionReponse->getClickedButton()->getName())
-            {
-                return $this->redirectToRoute('scenario_list');
-            }
 
             return $this->redirectToRoute('new_question_reponse', [
                 'id' => $id
@@ -166,4 +164,5 @@ class QuestionReponseController extends Controller
             'formEditQuestionReponse' => $form->createView()
         ]);
     }
+
 }

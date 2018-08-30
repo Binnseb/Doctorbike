@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Veuillez modifier la cylindrée</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card bg-dark text-primary">
+                        <div class="card-header" style="text-align: center">
+                            <h4>Veuillez remplir ce formulaire pour modifier une cylindrée</h4>
+                        </div>
+                        <div class="card-body">
+
+                            {{ form_start(form) }}
+
+                            {{ form_errors(form) }}
+
+                            {{ form_row(form.valeur) }}
+
+                            <button type="submit" class="btn btn-success btn-block">
+                                Modifier la cylindrée
+                            </button>
+
+                            {{ form_rest(form) }}
+
+                            {{ form_end(form) }}
+
+                            <br>
+                            <a href="{{ path('cylindree_list') }}" class="btn btn-info">Revenir à la liste des cylindrées</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

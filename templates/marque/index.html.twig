@@ -69,9 +69,13 @@
                                 {% else %}
                                     <td>Aucune image</td>
                                 {% endif %}
+                            <td>
+                                <a href="{{ path('marque_edit', {'id': marque.id}) }}" class="btn btn-warning">Modifier la marque</a>
+                            </td>
 
-                            <td><a href="{{ path('marque_show', {'id': marque.id}) }}" class=" btn btn-info">Voir la marque</a></td>
-                            <td><a href="{{ path('marque_edit', {'id': marque.id}) }}" class="btn btn-warning">Modifier la marque</a></td>
+                            <td>
+                                <a href="{{ path('marque_show', {'id': marque.id}) }}" class=" btn btn-info">Voir la marque</a>
+                            </td>
                         </tr>
                     {% else %}
                         <tr>

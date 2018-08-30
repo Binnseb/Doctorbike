@@ -48,7 +48,7 @@
             </div>
 
             <div class="row">
-                <table class="table table-dark text-center table-hover inline-table">
+                <table class="table table-striped table-responsive-sm table-bordered table-dark table-hover table-outline">
                     <thead>
                     <tr>
                         <th style="vertical-align: middle">Auteur</th>
@@ -56,9 +56,11 @@
                         <th style="vertical-align: middle">Nombre de questions</th>
                         <th style="vertical-align: middle">Nombre de votes</th>
                         <th style="vertical-align: middle">Satisfaction</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th style="vertical-align: middle">Jouer</th>
+                        {% if is_granted('ROLE_MODERATEUR') %}
+                        <th style="vertical-align: middle">Modifier</th>
+                        <th style="vertical-align: middle">Voir</th>
+                        {% endif %}
                     </tr>
                     </thead>
                     <tbody>
@@ -88,21 +90,29 @@
                                 <td>
                                     <div class="clearfix">
                                         <div class="float-center">
-                                            <strong>{{ scenario.satisfactionPourcentage }}%</strong>
+                                            <strong>{{ scenario.satisfactionPourcentage|number_format }}%</strong>
                                         </div>
                                     </div>
-                                    <div class="progress progress-xs ">
-                                        <div
-                                            {% if scenario.satisfactionPourcentage <= 35 %} class = "progress-bar-striped progress-bar-danger"
-                                            {% elseif  scenario.satisfactionPourcentage >= 75%} class = "progress-bar-striped progress-bar-success"
+
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated
+                                            {% if scenario.satisfactionPourcentage <= 35 %}
+                                                bg-danger
+                                            {% elseif  scenario.satisfactionPourcentage >= 75%}
+                                                bg-success
                                             {% else %}
-                                            class = "progress-bar-striped progress-bar-warning"
-                                            {% endif %}
+                                                bg-warning
+                                            {% endif %}"
                                              role="progressbar"
-                                             style="width:100%"
                                              aria-valuenow="{{ scenario.satisfactionPourcentage }}"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100">
+                                             aria-valuemin="0" aria-valuemax="100" style="width:
+                                            {% if scenario.satisfactionPourcentage == 0 %}
+                                                    100%;
+                                            {% else %}
+                                                {{ scenario.satisfactionPourcentage }}%;
+                                            {% endif %}
+                                                    ">
+
                                         </div>
                                     </div>
                                 </td>
@@ -126,7 +136,7 @@
                                         <a href="{{ path('list_question_reponse', {'id': scenario.id}) }}" class=" btn btn-warning btn-pill" style="font-weight: bold">Modifier</a>
                                     </td>
                                 {% else %}
-                                <td></td>
+                                    <td></td>
                                 {% endif %}
                             {% endif %}
 
@@ -135,6 +145,8 @@
                                 <td>
                                     <a href="{{ path('scenario_show', {'id': scenario.id}) }}" class=" btn btn-info btn-pill" style="font-weight: bold">Voir le scénario</a>
                                 </td>
+                                {% else %}
+                                    <td></td>
                                 {% endif %}
                             {% endif %}
                         </tr>

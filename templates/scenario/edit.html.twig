@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formEditScenario 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }} text-center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="block push">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="jumbotron jumbotron-fluid">
+                        <h1>Veuillez modifier votre scénario</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card bg-dark text-primary">
+                        <div class="card-header" style="text-align: center">
+                            <h4>Le scénario</h4>
+                        </div>
+                        <div class="card-body">
+
+                            {{ form_start(formEditScenario)  }}
+
+                            {{ form_errors(formEditScenario) }}
+
+                            {{ form_row(formEditScenario.nom, {'attr': {'placeholder': "Exemple : Ma moto ne démarre pas"}}) }}
+
+                            {{ form_rest(formEditScenario) }}
+
+                            <button type="submit" class="btn btn-success btn-block">Modifier le scénario</button>
+
+                            {{ form_end(formEditScenario) }}
+
+                            <br>
+                            <a href="{{ path('scenario_list') }}" class="btn btn-info">Revenir à la liste des scénarios</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
